@@ -3,7 +3,10 @@
 \usecolortheme{whale}
 \usecolortheme[RGB={245,128,37}]{structure}
 
+\definecolor{bold}{RGB}{245,128,37}
+
 \newcommand{\drawdownarrow}{\centering \vspace{0.05in}  {\LARGE $\downarrow$}  \vspace{0.05in}}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
 \makeatletter
 \setbeamertemplate{footline}
@@ -25,6 +28,7 @@
 \makeatother
   
 \usepackage{ragged2e}
+%\usepackage{setspace}
 
 \usepackage{forloop}
 \usepackage[percent]{overpic}
@@ -50,7 +54,7 @@
 
 \usepackage[firstinits=true,style=verbose,maxnames=6,backend=bibtex]{biblatex}
 \renewbibmacro{in:}{}
-\bibliography{../references/references}
+\bibliography{../../references/references}
 \setbeamercolor{bibliography item}{use=normal text,fg=black}
 \setbeamercolor*{bibliography entry title}{use=normal text,fg=black}
 \setbeamercolor*{bibliography entry author}{use=normal text,fg=black}

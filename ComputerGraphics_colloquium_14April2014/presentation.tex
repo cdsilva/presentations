@@ -124,12 +124,14 @@ The stripes now appear as peaks around the circumference of the embryo
 We use a microfluidic device \footcite{chung2010microfluidic} to easily obtain images of many embryos
 
 \includegraphics[width=4in]{drosophila_imaging_setup_close}
-\end{center}
 
-\begin{itemize}
-\item Use pressure source to push fluid with embryos in the device
-\item High pressure opens up the holes, low pressure closes
-\end{itemize}
+%\begin{itemize}
+%\item 
+Use pressure source to push fluid with embryos in the device
+%\item High pressure opens up the holes, low pressure closes
+%\end{itemize}
+
+\end{center}
 
 \end{frame}
 
@@ -439,13 +441,13 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 \begin{center}
 
 \begin{tikzpicture}
-\node(a) {\includegraphics[width=0.3\textwidth]{images_angsynch}};
+\node(a) {\includegraphics[width=2in]{images_angsynch}};
 
-\node[below=0in of a, align=center, text width=0.3\textwidth](text) {Images, registered using angular synchronization};
+\node[below=0in of a, align=center, text width=2in](text) {Images, registered using angular synchronization};
 
-\node[right=0.15\textwidth of a] (b) {\includegraphics[width=0.3\textwidth]{images_dmaps}};
+\node[right=0.5in of a] (b) {\includegraphics[width=2in]{images_dmaps}};
 
-\node[below=0in of b, align=center, text width=0.3\textwidth](text) {Images, registered using angular synchronization and temporally ordered using diffusion maps};
+\node[below=0in of b, align=center, text width=2in](text) {Images, registered using \\angular synchronization and temporally ordered using diffusion maps};
 
 \draw[->] (a.east) -- (b.west);
 
@@ -488,13 +490,13 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 \begin{center}
 
 \begin{tikzpicture}
-\node(a) {\includegraphics[width=0.3\textwidth]{fig2a}};
+\node(a) {\includegraphics[width=2in]{fig2a}};
 
-\node[below=0in of a, align=center, text width=0.3\textwidth](text) {Images, unregistered and unordered};
+\node[below=0in of a, align=center, text width=2in](text) {Images, unregistered and unordered};
 
-\node[right=0.15\textwidth of a] (b) {\includegraphics[width=0.3\textwidth]{fig5}};
+\node[right=0.5in of a] (b) {\includegraphics[width=2in]{fig5}};
 
-\node[below=0in of b, align=center, text width=0.3\textwidth](text) {Images, registered and ordered using vector diffusion maps};
+\node[below=0in of b, align=center, text width=2in](text) {Images, registered and ordered using vector diffusion maps};
 
 \draw[->] (a.east) -- (b.west);
 

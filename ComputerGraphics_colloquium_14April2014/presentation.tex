@@ -264,6 +264,36 @@ and the top eigenvector of $H$ gives us estimates of the optimal rotations
 
 \end{frame}
 
+\begin{frame}{Synchronization and Consistency}
+
+\begin{minipage}[b]{0.5\textwidth}
+\begin{itemize}
+
+\item Higher-order consistency: $\theta_i - \theta_k \approx \theta_{ij} + \theta_{jk}$
+
+\item Going from $i \rightarrow k$ is like going from $i \rightarrow j$ and then from $j \rightarrow k$
+
+\end{itemize}
+\end{minipage}
+%
+\includegraphics[width=2in]{synchronization1}
+
+\begin{center}
+
+The matrix $H^2$ contains information about these relationships
+$$H^2 = \begin{bmatrix}
+\sum_j e^{\theta_{1j} + \theta_{j1}} & \sum_j e^{\theta_{1j} + \theta_{j2}} & \cdots & \sum_j e^{\theta_{1j} + \theta_{jm}}  \\
+\sum_j e^{\theta_{2j} + \theta_{j1}} & \sum_j e^{\theta_{2j} + \theta_{j2}} & \cdots & \sum_j e^{\theta_{2j} + \theta_{jm}}  \\\vdots & \vdots & \ddots & \vdots \\
+\sum_j e^{\theta_{mj} + \theta_{j1}} & \sum_j e^{\theta_{mj} + \theta_{j2}} & \cdots & \sum_j e^{\theta_{mj} + \theta_{jm}}  \\\end{bmatrix} $$
+
+The top eigenvector of $H^2$ gives rotations which satisfy the second order relations
+
+(luckily, the eigenvectors of $H$ and $H^2$ are the same!)
+
+\end{center}
+
+\end{frame}
+
 \begin{frame}{Synchronization Example with Synthetic Data}
 
 \begin{center}
@@ -497,6 +527,8 @@ For this particular system, both registration and temporal ordering can be done 
 Membranes grow in thickness \\as a function of time
 \par}
 
+{\em \scriptsize Note that the curve becomes flatter and noisier \\at the end of the developmental time window \par}
+
 \end{center}
 \end{minipage}
 
@@ -552,14 +584,14 @@ $\rho=0.9158$
 \begin{frame}{Making Smooth Movies from Snapshots}
 
 \begin{center}
-\includegraphics[width=2in]{fig5}
+\includegraphics[width=1.9in]{fig5}
 \end{center}
 
 \begin{itemize}
 \item We are interested in making a smooth movie \\ from the  (registered and ordered) snapshots
 \item This requires 
 \begin{itemize}
-\item smooth transitions between frames
+\item smooth transitions between frames \footcite{kemelmacher2011exploring}
 \item averaging out interembryo variability
 \end{itemize}
 \end{itemize}
@@ -637,7 +669,7 @@ $\rho=0.9158$
 \begin{itemize}
 \item So far, we have looked at images of concentration profiles \\ which are relatively smooth
 \item However, the number/size/density of nuclei is also often important
-\item Because these features are not smooth (but more akin to textures), \\they probably require special treatment
+\item Because these features are not smooth (but more akin to textures), \\they probably require special treatment (e.g., the scattering transform \footcite{mallat2012group})
 \end{itemize}
 \end{frame}
 

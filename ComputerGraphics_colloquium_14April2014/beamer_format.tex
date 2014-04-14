@@ -30,6 +30,8 @@
 \usepackage{ragged2e}
 %\usepackage{setspace}
 
+\usepackage{epstopdf}
+
 \usepackage{forloop}
 \usepackage[percent]{overpic}
 
@@ -52,9 +54,13 @@
 \widowpenalty 10000
 \clubpenalty 10000
 
+%\usepackage{extsizes}
+\setbeamerfont{footnote}{size=\fontsize{5}{0.25}}
+\setbeamerfont{footnote mark}{size=\fontsize{5}{0.25}}
+
 \usepackage[firstinits=true,style=verbose,maxnames=6,backend=bibtex]{biblatex}
 \renewbibmacro{in:}{}
-\bibliography{../../references/references}
+\bibliography{../../Stas_data/image_analysis_paper/background_reading/references,../../references/references}
 \setbeamercolor{bibliography item}{use=normal text,fg=black}
 \setbeamercolor*{bibliography entry title}{use=normal text,fg=black}
 \setbeamercolor*{bibliography entry author}{use=normal text,fg=black}
@@ -71,8 +77,14 @@
 \DeclareCiteCommand{\cite}{}{%
     \printnames[author]{author}, \printfield{journaltitle}, \printfield{year}} {;}{}%
 
-\let\oldfootnotesize\footnotesize
-\renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+%\let\oldfootnotesize\footnotesize
+%\renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+
+%\renewcommand{\thefootnote}{\tiny\arabic{footnote}}
+
+%\let\oldfootnote\footnote
+%\renewcommand\footnote[2][]{{\linespread{0.2}\oldfootnote[#1]{#2}}}
+
 
 
 	

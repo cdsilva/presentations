@@ -102,8 +102,7 @@ Images of {\em Drosophila} in the third hour of development
 \begin{frame}{{\em Drosophila} Images}
 
 \begin{center}
-Rather than looking at longitudinal images of the embryo, \\
-we will look at cross-sectional images
+We will look at optical sections perpendicular to the long axis of the embryo
 
 \includegraphics[width=3in]{drosophila_schematic}
 
@@ -172,6 +171,7 @@ Each embryo is in a different rotational orientation.
 
 \begin{frame}{Mathematical Methods for Registration and Ordering}
 
+\vspace{-0.1in}
 \begin{center}
 We will show how we can {\em automatically} register and order the images
 \begin{tikzpicture}
@@ -181,12 +181,20 @@ We will show how we can {\em automatically} register and order the images
 \end{tikzpicture}
 \end{center}
 
+\vspace{-0.1in}
+{\small 
 \begin{description}
-\item[Image registration] Angular synchronization \footcite{singer2011angular}
-\item[Temporal ordering] Diffusion maps \footcite{coifman2005geometric}
-\item[Simultaneous registration and ordering] Vector diffusion maps \footcite{singer2012vector} 
-\end{description}
+\item[Image registration] Angular synchronization \footcite{ singer2011angular}
+{\scriptsize \em (other methods: templates \footcite{ahuja2007template}, feature extraction \footcite{zhao2003face, schindler2007inferring}) \par}
 
+\item[Temporal ordering] Diffusion maps \footcite{coifman2005geometric} 
+{\scriptsize \em (other methods: TSP \footcite{anavy2014blind}, MST \footcite{trapnell2014dynamics}) \par}
+
+\item[Simultaneous registration and ordering] Vector diffusion maps \footcite{singer2012vector} 
+
+\end{description}
+ \par}
+ 
 \end{frame}
 
 \begin{frame}{Image Registration: Angular Synchronization}
@@ -426,26 +434,22 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \begin{frame}{Temporal Ordering of {\em Drosophila} Images}
 
+
 \begin{center}
+
 \begin{tikzpicture}
-\node[] (a) {\includegraphics[width=1in]{fig2a}};
+\node(a) {\includegraphics[width=0.3\textwidth]{images_angsynch}};
 
-\node[below=0in of a, align=center, text width=1.5in](text) {{\small Images, unregistered and unordered \par}};
+\node[below=0in of a, align=center, text width=0.3\textwidth](text) {Images, registered using angular synchronization};
 
-\node[right=0.5in of a] (b) {\includegraphics[width=1in]{images_angsynch}};
+\node[right=0.15\textwidth of a] (b) {\includegraphics[width=0.3\textwidth]{images_dmaps}};
 
-\node[below=0in of b, align=center, text width=1.5in](text) {{\small Images, registered using angular synchronization \par}};
+\node[below=0in of b, align=center, text width=0.3\textwidth](text) {Images, registered using angular synchronization and temporally ordered using diffusion maps};
 
 \draw[->] (a.east) -- (b.west);
 
-\node[right=0.5in of b] (c) {\includegraphics[width=1in]{images_dmaps}};
-
-\node[below=0in of c, align=center, text width=1.5in](text) {{\small Images, registered using angular synchronization and temporally ordered using diffusion maps \par}};
-
-\draw[->] (b.east) -- (c.west);
 \end{tikzpicture}
 \end{center}
-
 
 \end{frame}
 
@@ -585,7 +589,6 @@ $\rho=0.9158$
 
 \begin{center}
 \includegraphics[width=1.9in]{fig5}
-\end{center}
 
 \begin{itemize}
 \item We are interested in making a smooth movie \\ from the  (registered and ordered) snapshots
@@ -595,6 +598,9 @@ $\rho=0.9158$
 \item averaging out interembryo variability
 \end{itemize}
 \end{itemize}
+
+\end{center}
+
 \end{frame}
 
 \begin{frame}{Images Over a Longer Developmental Range}

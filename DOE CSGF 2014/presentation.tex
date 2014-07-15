@@ -124,27 +124,13 @@ The stripes now appear as peaks around the circumference of the embryo
 \begin{center}
 We use a microfluidic device \footcite{chung2010microfluidic} to easily obtain images of many embryos
 
-\includegraphics[width=4in]{drosophila_imaging_setup_close}
-
-%\begin{itemize}
-%\item 
-Use pressure source to push fluid with embryos in the device
-%\item High pressure opens up the holes, low pressure closes
-%\end{itemize}
-
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Data Collection}
-
-\begin{center}
 \includegraphics[width=3.5in]{drosophila_imaging_setup}
 
-\vspace{0.2in}
+\vspace{0.15in}
 
 \begin{minipage}[b]{1.1in}
-\includegraphics[width=1in]{imaging_depth}
+\hfill
+\includegraphics[width=0.9in]{imaging_depth}
 \end{minipage}
 %
 \begin{minipage}[b]{0.65\textwidth}
@@ -180,7 +166,7 @@ We will show how we can {\em automatically} register and order the images
 \vspace{-0.05in}
 \begin{tikzpicture}
 \node(a) {\includegraphics[width=1.5in]{fig2a}};
-\node[right=0.2in of a] (b) {\includegraphics[width=1.5in]{fig5}};
+\node[right=0.2in of a] (b) {\includegraphics[width=1.5in]{VDM_data1_ordered}};
 \draw[->] (a.east) -- (b.west);
 \end{tikzpicture}
 \end{center}
@@ -380,19 +366,21 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \begin{frame}{Combined: Vector Diffusion Maps}
 
-\begin{minipage}{0.45\textwidth}
-	\begin{block}{Diffusion maps}
-		Calculate top eigenvectors of $A$, 
-		$$A_{ij} = \frac{\exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)}{\sum_j \exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)} $$
-	\end{block}
-	\end{minipage}	
-	\hfill
+
+
 	\begin{minipage}{0.45\textwidth}	
 	\begin{block}{Angular Synchronization}
 		Calculate top eigenvector of $H$,  
 		$$H_{ij} = e^{-i \theta_{ij}}$$
 	\end{block}
 	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+	\begin{block}{Diffusion maps}
+		Calculate top eigenvectors of $A$, 
+		$$A_{ij} = \frac{\exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)}{\sum_j \exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)} $$
+	\end{block}
+	\end{minipage}	
 	
 	\begin{block}{Vector Diffusion Maps (VDM) \footnotemark} 
 		Calculate the top eigenvectors of $S$, where $S_{ij} = A_{ij}H_{ij}$
@@ -407,7 +395,7 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \end{frame}
 
-\begin{frame}{Registration and Ordering of {\em Drosophila} Images Using Vector Diffusion Maps}
+\begin{frame}{Registration and Ordering of Images Using Vector Diffusion Maps}
 
 \begin{center}
 
@@ -416,7 +404,7 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \node[below=0in of a, align=center, text width=2in](text) {Images, unregistered and unordered};
 
-\node[right=0.5in of a] (b) {\includegraphics[width=2in]{fig5}};
+\node[right=0.5in of a] (b) {\includegraphics[width=2in]{VDM_data1_ordered}};
 
 \node[below=0in of b, align=center, text width=2in](text) {Images, registered and ordered using vector diffusion maps};
 

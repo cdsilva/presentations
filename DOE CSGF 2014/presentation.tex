@@ -1,4 +1,4 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt,aspectratio=169]{beamer}
 
 \input{beamer_format}
 
@@ -105,11 +105,11 @@ Images of {\em Drosophila} in the third hour of development
 \begin{center}
 We will look at optical sections perpendicular to the long axis of the embryo
 
-\includegraphics[width=3in]{drosophila_schematic}
+\includegraphics[width=2.5in]{drosophila_schematic}
 
 \begin{tikzpicture}
-\node[] (a) {\includegraphics[width=1.6in]{longitudinal_45min}};
-\node[right=0.4in of a] (b) {\includegraphics[width=0.9in]{DV_45min}};
+\node[] (a) {\includegraphics[width=1.3in]{longitudinal_45min}};
+\node[right=0.4in of a] (b) {\includegraphics[width=0.7in]{DV_45min}};
 \draw[->] (a.east) -- (b.west);
 \end{tikzpicture}
 
@@ -124,27 +124,13 @@ The stripes now appear as peaks around the circumference of the embryo
 \begin{center}
 We use a microfluidic device \footcite{chung2010microfluidic} to easily obtain images of many embryos
 
-\includegraphics[width=4in]{drosophila_imaging_setup_close}
+\includegraphics[width=3.5in]{drosophila_imaging_setup}
 
-%\begin{itemize}
-%\item 
-Use pressure source to push fluid with embryos in the device
-%\item High pressure opens up the holes, low pressure closes
-%\end{itemize}
-
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Data Collection}
-
-\begin{center}
-\includegraphics[width=4in]{drosophila_imaging_setup}
-
-\vspace{0.2in}
+\vspace{0.15in}
 
 \begin{minipage}[b]{1.1in}
-\includegraphics[width=1in]{imaging_depth}
+\hfill
+\includegraphics[width=0.9in]{imaging_depth}
 \end{minipage}
 %
 \begin{minipage}[b]{0.65\textwidth}
@@ -180,7 +166,7 @@ We will show how we can {\em automatically} register and order the images
 \vspace{-0.05in}
 \begin{tikzpicture}
 \node(a) {\includegraphics[width=1.5in]{fig2a}};
-\node[right=0.2in of a] (b) {\includegraphics[width=1.5in]{fig5}};
+\node[right=0.2in of a] (b) {\includegraphics[width=1.5in]{VDM_data1_ordered}};
 \draw[->] (a.east) -- (b.west);
 \end{tikzpicture}
 \end{center}
@@ -245,6 +231,37 @@ We will show how we can {\em automatically} register and order the images
 
 \end{frame}
 
+
+\begin{frame}{Angular Synchronization: The Algorithm}
+
+\begin{itemize}
+\item We look at the matrix $H$ which contains information \\about all pairwise alignments
+$$H = \begin{bmatrix}
+e^{\theta_{11}} & e^{\theta_{12}} & \cdots & e^{\theta_{1m}} \\
+e^{\theta_{21}} & e^{\theta_{22}} & \cdots & e^{\theta_{2m}} \\
+\vdots & \vdots & \ddots & \vdots \\
+e^{\theta_{m1}} & e^{\theta_{m2}} & \cdots & e^{\theta_{mm}} 
+\end{bmatrix} $$
+\item If our assumption holds ($\theta_{ij} \approx \theta_i - \theta_j$), then 
+$$ H \approx \begin{bmatrix}
+e^{\theta_1-\theta_1} & e^{\theta_1-\theta_2} & \cdots & e^{\theta_1-\theta_m} \\
+e^{\theta_2-\theta_1} & e^{\theta_2-\theta_2} & \cdots & e^{\theta_2-\theta_m} \\
+\vdots & \vdots & \ddots & \vdots \\
+e^{\theta_m-\theta_1} & e^{\theta_m-\theta_2} & \cdots & e^{\theta_m-\theta_m} 
+\end{bmatrix} =
+\begin{bmatrix}
+e^{\theta_1} \\
+e^{\theta_2} \\
+\vdots \\
+e^{\theta_m}
+\end{bmatrix}
+\begin{bmatrix}
+e^{-\theta_1} & e^{-\theta_2} & \cdots & e^{-\theta_m}
+\end{bmatrix} $$
+and the top eigenvector of $H$ gives us estimates of the optimal rotations
+\end{itemize}
+
+\end{frame}
 %\begin{frame}{Angular Synchronization of {\em Drosophila} Images}
 %
 %\begin{center}
@@ -267,7 +284,7 @@ We will show how we can {\em automatically} register and order the images
 
 \item Our images are high-dimensional vectors
 
-\item We assume that our images lie on a one-dimensional (perhaps nonlinear curve) in high-dimensional space
+\item We assume that our images lie on a one-dimensional (perhaps nonlinear) curve
 
 \item We also assume that this curve is parameterized by time
 
@@ -301,7 +318,7 @@ We will show how we can {\em automatically} register and order the images
 
 \item The first step is to construct the matrix $W \in \mathbb{R}^{m \times m}$, where $W_{ij}$ is large if points $x_i$ and $x_j$ are ``close.''
 $$W_{ij} = \exp \left( -\frac{d^2(x_i, x_j)}{\epsilon^2} \right)$$
-$d(x_i, x_j)$ is the distance between $x_i$ and $x_j$\\
+$d(x_i, x_j)$ is the distance between $x_i$ and $x_j$;
 $\epsilon$ is a characteristic scale
 
 \end{itemize}
@@ -326,42 +343,44 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \end{frame}
 
-\begin{frame}{Temporal Ordering of {\em Drosophila} Images}
-
-
-\begin{center}
-
-\begin{tikzpicture}
-\node(a) {\includegraphics[width=2in]{images_angsynch}};
-
-\node[below=0in of a, align=center, text width=2in](text) {Images, registered using angular synchronization};
-
-\node[right=0.5in of a] (b) {\includegraphics[width=2in]{images_dmaps}};
-
-\node[below=0in of b, align=center, text width=2in](text) {Images, registered using \\angular synchronization and temporally ordered using diffusion maps};
-
-\draw[->] (a.east) -- (b.west);
-
-\end{tikzpicture}
-\end{center}
-
-\end{frame}
+%\begin{frame}{Temporal Ordering of {\em Drosophila} Images}
+%
+%
+%\begin{center}
+%
+%\begin{tikzpicture}
+%\node(a) {\includegraphics[width=2in]{images_angsynch}};
+%
+%\node[below=0in of a, align=center, text width=2in](text) {Images, registered using angular synchronization};
+%
+%\node[right=0.5in of a] (b) {\includegraphics[width=2in]{images_dmaps}};
+%
+%\node[below=0in of b, align=center, text width=2in](text) {Images, registered using \\angular synchronization and temporally ordered using diffusion maps};
+%
+%\draw[->] (a.east) -- (b.west);
+%
+%\end{tikzpicture}
+%\end{center}
+%
+%\end{frame}
 
 \begin{frame}{Combined: Vector Diffusion Maps}
 
-\begin{minipage}{0.45\textwidth}
-	\begin{block}{Diffusion maps}
-		Calculate top eigenvectors of $A$, 
-		$$A_{ij} = \frac{\exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)}{\sum_j \exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)} $$
-	\end{block}
-	\end{minipage}	
-	\hfill
+
+
 	\begin{minipage}{0.45\textwidth}	
 	\begin{block}{Angular Synchronization}
 		Calculate top eigenvector of $H$,  
 		$$H_{ij} = e^{-i \theta_{ij}}$$
 	\end{block}
 	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+	\begin{block}{Diffusion maps}
+		Calculate top eigenvectors of $A$, 
+		$$A_{ij} = \frac{\exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)}{\sum_j \exp \left(-\frac{d^2(x_i, x_j)}{\epsilon^2}\right)} $$
+	\end{block}
+	\end{minipage}	
 	
 	\begin{block}{Vector Diffusion Maps (VDM) \footnotemark} 
 		Calculate the top eigenvectors of $S$, where $S_{ij} = A_{ij}H_{ij}$
@@ -376,7 +395,9 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \end{frame}
 
-\begin{frame}{Registration and Ordering of {\em Drosophila} Images Using Vector Diffusion Maps}
+\section{Ordering Images During Cellularization}
+
+\begin{frame}{Registration and Ordering of Images Using Vector Diffusion Maps}
 
 \begin{center}
 
@@ -385,7 +406,7 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 
 \node[below=0in of a, align=center, text width=2in](text) {Images, unregistered and unordered};
 
-\node[right=0.5in of a] (b) {\includegraphics[width=2in]{fig5}};
+\node[right=0.5in of a] (b) {\includegraphics[width=2in]{VDM_data1_ordered}};
 
 \node[below=0in of b, align=center, text width=2in](text) {Images, registered and ordered using vector diffusion maps};
 
@@ -399,7 +420,8 @@ $$\argmin_{y} \sum_{ij} W_{ij} (y(x_i) - y(x_j))^2.$$
 \begin{frame}{Validating Registration and Temporal Ordering}
 
 \centering
-For this particular system, both registration and temporal ordering can be done using prior physical knowledge 
+
+For this particular system, both registration and temporal ordering can be done using prior  knowledge 
 
 \vspace{0.1in}
 
@@ -451,6 +473,7 @@ We compare concentration profiles around the circumference of the embryo
 
 \end{center}
 
+\centering
 \begin{minipage}{3.1in}
 \centering
 The results appear consistent 
@@ -468,7 +491,7 @@ Ordered using membranes \par}
 {\scriptsize Registered and ordered using vector diffusion maps \par}
 \end{minipage}
 \end{minipage}
-\hfill
+\hspace{0.5in}
 \begin{minipage}{1.5in}
 \centering
 Rank correlation
@@ -478,9 +501,11 @@ $\rho=0.9158$
 
 \end{frame}
 
-\section{Ordering Images From Gastrulation}
+\section{Ordering Images During Gastrulation}
 
-\begin{frame}{Gastrulation}
+\begin{frame}{Registering and Ordering a More Complex Data Set}
+
+\centering
 
 Following cellularization, there is gastrulation, when the embryos begin to morph and deform. 
 
@@ -517,25 +542,21 @@ Following cellularization, there is gastrulation, when the embryos begin to morp
 
 During this time period, we have no good way to accurately measure the time of fixed images.
 
-\end{frame}
-
-\begin{frame}{Raw Data Taken During Gastrulation}
-
-\includegraphics[width=\textwidth]{raw_data2}
+\includegraphics[width=0.7\textwidth]{raw_data2}
 
 We want to register and temporally order this data.
 
-%\movie{\includegraphics[width=2in]{movie_frame}}{images/emb01_hisRFP_gastrulation.avi}
-
 \end{frame}
 
-\begin{frame}{Ordering using VDM}
+\begin{frame}{Registered and Ordered using VDM}
 
-\includegraphics[width=\textwidth]{VDM_ordered}
+\centering
+
+\includegraphics[width=0.8\textwidth]{VDM_ordered}
 
 The data has now been registered and ordered using VDM
 
-\vspace{0.2in}
+\vspace{0.1in}
 
 \includegraphics[width=\textwidth]{average_trajectory}
 
@@ -549,12 +570,8 @@ We can compute an {\em average} developmental trajectory.
 \begin{itemize}
 \item In many experiments, we are presented with cross-sectional imaging data that must be registered and temporally ordered
 \item Both of these tasks can be automated, using angular synchronization (for registration), diffusion maps (for temporal ordering), and vector diffusion maps (for simultaneous registration + ordering)
-\item In our example here, we have independent time and space markers, and we can validate our automatic methods
-\item We are now interested more other data sets, with 
-\begin{itemize}
-\item  more complex dynamics
-\item no independent time marker
-\end{itemize}
+\item In the first example, we have independent time and space markers, and we can validate our automatic methods
+\item We are now interested in matching fixed images with {\em live movies} that contain only one signal (e.g., nuclei) so that we can determine the rates of relevant developmental processes
 \end{itemize}
 
 \vspace{0.5in}

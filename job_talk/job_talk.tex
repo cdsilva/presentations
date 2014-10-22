@@ -28,7 +28,7 @@
 
 \section{Introduction}
 
-\begin{frame}{Underlying Motivation}
+\begin{frame}{Motivation}
 
 Multiscale time series are ubiquitous
 
@@ -37,17 +37,39 @@ Multiscale time series are ubiquitous
 
 \begin{frame}{Goals for Analysis}
 
-Reduction
+Reduction of multiscale data
+
+Want to extract the {\em slow variables}
 
 \end{frame}
 
 
 \begin{frame}{How to Reduce?}
 
-Model-driven reduction (singularly peturbed problem)
+\begin{enumerate}
 
-Data-driven reduction
 
+\item Model reduction
+
+\begin{tikzpicture}
+\node[fill=yellow!50, text width=3cm, align=center](a) {$ \frac{dx_1}{dt} = f(x_1,x_2) $ $ \frac{dx_2}{dt} = \frac{1}{\epsilon} g(x_1,x_2)$};
+\node[right=of a,fill=yellow!50, text width=3cm, align=center](b) {$ \frac{dx_1}{dt} = f(x_1,\overline{x_2}) $};
+
+\draw[->] (a) -- (b);
+\end{tikzpicture}
+
+\item Data reduction
+
+\begin{tikzpicture}
+\node(a) {\includegraphics[width=0.25\textwidth]{data_init}};
+\node[right=of a,fill=yellow!50, text width=3cm, align=center](b) {$x_1 $};
+
+\draw[->] (a) -- (b);
+\end{tikzpicture}
+
+\end{enumerate}
+
+We will focus on the second case: {\bf data reduction}
 \end{frame}
 
 %\begin{frame}{Outline}
@@ -68,16 +90,21 @@ Data-driven reduction
 
 \begin{frame}{Multiscale Data}
 
+\begin{block}{SDE formulation}
+
 \begin{equation*}
 \begin{aligned}
 dx_i(t) &= a_i(\vec{x}(t)) dt + dW_i(t), & \: 1 \le i \le m \\
 dx_i(t) &= \frac{a_i(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_i(t) , & \: m+1 \le i \le n
 \end{aligned}
 \end{equation*}
+\end{block}
 
-This SDE has $m$ slow variables and $n-m$ fast variables
+When $\epsilon \ll 1$, this SDE has $m$ slow variables and $n-m$ fast variables
 
 Under some mild conditions, we can write a {\em reduced} SDE in {\em only} the slow variables $x_1, \dots, x_m$.
+
+We will discuss how we can extract a parameterization of $x_1, \dots, x_m$ from {\em data}
 
 \end{frame}
 
@@ -390,9 +417,32 @@ where we take $\epsilon = 10^{-3}$
 
 \begin{frame}{Analysis of data}
 
+\includegraphics[width=0.5\textwidth]{data_linear_NIV}
+
 \end{frame}
 
 \begin{frame}{Curved ``Half-Moon'' Data}
+
+\begin{equation*}
+\begin{aligned}
+\begin{bmatrix}
+y_1(t) \\ y_2(t)
+\end{bmatrix} &=&
+\mathbf{f}(\vec{x}(t)) &=&
+\begin{bmatrix}
+x_1(t) + x_2^2(t) \\
+x_2(t)
+\end{bmatrix}\\
+\mathbf{g}(\vec{y}(t)) &=& \mathbf{f}^{-1} (\vec{y}(t)) &=& \begin{bmatrix} y_1(t) - y_2^2(t) \\ y_2(t) \end{bmatrix}
+\end{aligned}
+\end{equation*}
+
+\includegraphics[width=0.5\textwidth]{data_init_nonlinear}
+\end{frame}
+
+\begin{frame}{Analysis of data}
+
+\includegraphics[width=0.5\textwidth]{data_nonlinear_NIV}
 
 \end{frame}
 

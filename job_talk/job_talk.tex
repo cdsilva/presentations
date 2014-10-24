@@ -3,6 +3,7 @@
 \usetheme{Frankfurt}
 \setbeamercolor{structure}{fg=orange}
 \setbeamertemplate{footline}[frame number]
+\beamertemplatenavigationsymbolsempty
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
@@ -28,6 +29,9 @@
 
 \titlepage
 
+\hfill
+\includegraphics[width=4cm]{pu_logo}
+
 \end{frame}
 
 \section{Introduction}
@@ -39,10 +43,13 @@ Multiscale time series are ubiquitous
 \begin{tikzpicture}
 
 \node(DNA){\includegraphics[width=1in]{multiscale_DNA}};
-\node[below=0cm of DNA, align=center, text width=1in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
+\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
 
 \node[right=of DNA](network_traffic){\includegraphics[width=1in]{multiscale_network_traffic}};
-\node[below=0cm of network_traffic, align=center, text width=1in](network_traffic_text){Network traffic \\ {\scriptsize Abry {\em et al}, {\em IEEE Signal Processing Magazine}, 2002 \par}};
+\node[below=0cm of network_traffic, align=center, text width=1.2in](network_traffic_text){Network traffic \\ {\scriptsize Abry {\em et al}, {\em IEEE Signal Processing Magazine}, 2002 \par}};
+
+\node[right=of network_traffic](MD){\includegraphics[width=1in]{multiscale_MD}};
+\node[below=0cm of MD, align=center, text width=1.2in](MD_text){Molecular simulations \\ {\scriptsize Andres Jaramillo-Botero and William A. Goddard III, 2006\par}};
 
 \end{tikzpicture}
 
@@ -85,7 +92,9 @@ Would like to extract the {\em slow variables} that govern the system dynamics
 
 \end{block}
 
-We will focus on the second case: {\bf data reduction}
+\centering
+We will focus on {\bf data reduction}
+
 \end{frame}
 
 %\begin{frame}{Outline}
@@ -129,7 +138,7 @@ dx_i(t) &= \frac{a_i(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_i(
 
 \end{tikzpicture}
 
-Under some mild conditions, we can write a {\em reduced} SDE 
+Under some mild conditions, can write a {\em reduced} SDE 
 
 \begin{tikzpicture}
 
@@ -137,7 +146,7 @@ Under some mild conditions, we can write a {\em reduced} SDE
 
 \end{tikzpicture}
 
-We will discuss how we can extract a parameterization of $x_1, \dots, x_m$ from {\em data}
+Want to extract a parameterization of $x_1, \dots, x_m$ from {\em data}
 
 \end{frame}
 
@@ -150,12 +159,12 @@ We will discuss how we can extract a parameterization of $x_1, \dots, x_m$ from 
 \node(a){\includegraphics{PCA_3D}};
 \node(texta)[below=0cm of a, text width=4.5cm, align=center] {High dimensional data on low-dimensional structure};
 \node[right=2cm of a](b){\includegraphics{PCA_2D}};
-\node(texba)[below=0cm of b, text width=4cm, align=center] {Want to reduce dimensionality};
-\draw[->] (a) -- (b);
+\node(texba)[below=0cm of b, text width=4cm, align=center] {Reduced dimensionality};
+\draw[->] (a) -- (b) node[above, midway]{{\small Data reduction}};
 \end{tikzpicture}
 
-Most common technique: Principal Component Analysis
-
+Common technique: Principal component analysis \\
+Project onto hyperplane which captures maximum variance 
 \newfootnote{Shlens, ``A Tutorial on Principal Component Analysys}
 \end{frame}
 
@@ -169,9 +178,9 @@ Most common technique: Principal Component Analysis
         \node[right of=fig1, node distance=0.5\textwidth] (fig2) {\includegraphics[width=0.4\textwidth]{dmaps_spiral_color_plane_large.jpg}};
         \draw [->] (fig1.east) -- (fig2.west);
         
-        \node[below=0cm of fig1, text width=0.3\textwidth, align=center]{Data on a spiral \\ {\scriptsize PCA will find the two-dimensional plane \par}};
+        \node[below=0cm of fig1, text width=0.4\textwidth, align=center]{Data on a spiral \\ {\scriptsize PCA will find \\two-dimensional plane \par}};
         
-        \node[below=0cm of fig2, text width=0.3\textwidth, align=center]{Data colored by first diffusion maps coordinate};
+        \node[below=0cm of fig2, text width=0.5\textwidth, align=center]{Data colored by first diffusion maps coordinate};
         
     \end{tikzpicture}
 
@@ -229,36 +238,45 @@ Most common technique: Principal Component Analysis
 
 \begin{frame}{DMAPS Implementation }
 
+	
 	\newfootnote{Coifman {\em et al}, PNAS, 2005}
 	
-    \begin{itemize}
-    {\small
-        \item Assume we have data $y_1, y_2, \dots, y_n \in \mathbb{R}^d$ that are sampled 		\\from an underlying manifold $\mathcal{M}$
-        \item We have a {\bf distance metric} $d(y_i, y_j)$ for our data
-        \item We construct the matrix $W \in \mathbb{R}^{n \times n}$, with
-        $$W_{ij} = \exp \left( -\frac{d^2 (x_i, x_j)}{\sigma_{kernel}^2} \right) $$
-        where $\sigma_{kernel}$ is a characteristic distance 
-        %\leavevmode\makebox(0,0){\put(60, 70){\includegraphics[width=0.25\textwidth]{spiral_with_ball.jpg}}}
+	\makebox[\textwidth][c]{
 
-        \item We define the diagonal matrix $D$ with $D_{ii} = \sum_{j=1}^{n} W_{ij}$, \\
-        and the matrix $A =  D^{-1} W$, where $A$ is a Markov transition matrix
+	\begin{tikzpicture}
+	
+	\node[fill=orange!20, text width=2.5cm, align=center](data){{\scriptsize {\bf Data} $y_1, y_2, \dots, y_n \in \mathbb{R}^d$  sampled from manifold $\mathcal{M}$ \par}};
+	
+	
+	\node[fill=orange!20, text width=4cm, right=of data, align=center](matrix){{\scriptsize {\bf Matrix} $W \in \mathbb{R}^{n \times n}$ \\
+        $W_{ij} = \exp \left( -\frac{d^2 (y_i, y_j)}{\sigma_{kernel}^2} \right) $\\ 
+         $\sigma_{kernel}$: characteristic distance \\
+	 Diagonal matrix $D$: $D_{ii} = \sum_{j=1}^{n} W_{ij}$\\ 
+	 Matrix $A =  D^{-1} W$ \par}};
+	
+	\node[fill=orange!20, text width=3cm, right=of matrix, align=center](eigenvectors){{\scriptsize Compute {\bf eigenvectors} $\phi_0, \phi_1, \dots, \phi_{n-1}$ and {\bf eigenvalues} $\lambda_0, \lambda_1, \dots, \lambda_{n-1}$ of $A$ \par}};
 
-        \item $I-A$ then approximates the Laplacian on the manifold $\mathcal{M}$
+		\node[fill=yellow!20, text width=3cm, above=0.1cm of matrix, align=center](distance){{\scriptsize $d(y_i, y_j)$ is a distance metric \par}};
 
-        \item We compute the {\em real} {\bf eigenvectors} $\phi_0, \phi_1, \dots, \phi_{n-1}$ and \\{\bf eigenvalues} $\lambda_0, \lambda_1, \dots, \lambda_{n-1}$ of $A$
+		\node[fill=yellow!20, text width=3.7cm, below=0.1cm of matrix, align=center](laplacian){{\scriptsize $I-A$ approximates Laplacian on manifold $\mathcal{M}$ \par}};
+		
+		\node[fill=yellow!20, text width=3.2cm, below=0.1cm of eigenvectors, align=center](eigenfunctions){{\scriptsize Eigenvectors approximate eigenfunctions of Laplacian {\em on~manifold} $\mathcal{M}$ \par}};
+		
+		\draw[->] (data.east) -- (matrix.west);
+		\draw[->] (matrix.east) -- (eigenvectors.west);
+		%\draw[->] (matrix.south) -- (laplacian.north);
+		%\draw[->] (eigenvectors.south) -- (eigenfunctions.north);
+		
 
-        %\item We {\bf order} the eigenvector/eigenvalue pairs such that $|\lambda_1| \ge |\lambda_2| \ge \dots \ge |\lambda_n|$
-
-        \item The eigenvectors then approximate the eigenfunctions \\of the Laplacian {\em on the manifold} $\mathcal{M}$
-        \par}
-    \end{itemize}
+	\end{tikzpicture}
+	}
 	
 
 \end{frame}
 
 \begin{frame}{Data-Driven Reduction for Multiscale Data}
 
-{\bf Issue:} Direction of largest variance is not necessarily the {\em slow} direction
+{\small Direction of largest variance is not necessarily the {\em slow} direction}
 
 \begin{center}
 \begin{tikzpicture}
@@ -269,7 +287,7 @@ Most common technique: Principal Component Analysis
 \end{center}
 %\includegraphics[width=0.5\textwidth]{data_linear_DMAPS}
 
-We will construct a {\em more informative metric} which captures the relative time scales in the data
+Construct a {\em metric} which captures relative time scales 
 
 \end{frame}
 
@@ -286,7 +304,7 @@ $$dz_i(t) = b_i(\vec{z}(t)) dt + dW_i(t)$$
 \begin{frame}{Mahalanobis Distance: A Good Metric}
 
 
-
+\centering
 For the multiscale SDE we are considering,
 
 \begin{tikzpicture}
@@ -298,10 +316,10 @@ dx_i(t) &= \frac{a_i(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_i(
 
 \node[below=3cm of a,fill=orange!20](b) {$dz_i(t) = b_i(\vec{z}(t)) dt + dW_i(t)$};
 
-\node[align=center,below right=0.5cm and -4.5cm of a, fill=yellow!20](c) {Rescale $x_{m+1}, \dots, x_n$  by $\sqrt{\epsilon}$ \\{\small $\begin{aligned}
+\node[align=center,below right=0.5cm and -4.5cm of a, fill=yellow!20](c) {Rescale $x_{m+1}, \dots, x_n$  by $\sqrt{\epsilon}$ \\{\scriptsize $\begin{aligned}
 z_i &= x_i, & \: 1 \le i \le m \\
 z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
-\end{aligned}$}};
+\end{aligned}$ \par}};
 
 \draw[->](a) -- (b);
 
@@ -328,7 +346,7 @@ z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 &= \sum_{i=1}^m  \left( x_i(t_2) - x_i(t_1) \right)^2 + \underbrace{\sum_{i=m+1}^n \epsilon \left( x_i(t_2) - x_i(t_1) \right)^2}
 \end{aligned}$}};
 
-\node[align=center,below left=0cm and -5cm of a, fill=yellow!20](c) {{\scriptsize $\begin{aligned}
+\node[align=center,below left=0.2cm and -5cm of a, fill=yellow!20](c) {{\scriptsize $\begin{aligned}
 z_i &= x_i, & \: 1 \le i \le m \\
 z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 \end{aligned}$}};
@@ -354,10 +372,12 @@ where $\mathbf{f}$ is some nonlinear measurement function.
 
 \newfootnote{Coifman and Singer, ACHA, 2009}
 
+\vspace{0.5cm}
+Mahalanobis distance is invariant (to fourth order) \\to nonlinear transformations
 
-Mahalanobis distance is invariant (to fourth order) to nonlinear transformations!
-
-$$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 + \mathcal{O}(\|  \vec{y}(t_2) - \vec{y}(t_1) \|^4_2)$$
+\begin{block}{}
+$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 + \mathcal{O}(\|  \vec{y}(t_2) - \vec{y}(t_1) \|^4_2)$
+\end{block}
 
 \end{frame}
 
@@ -366,7 +386,7 @@ $$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 
 
 \begin{itemize}
 
-\item We have data $\vec{y}(t_1), \vec{y}(t_2), \dots, \vec{y}(t_N)$
+\item Data $\vec{y}(t_1), \vec{y}(t_2), \dots, \vec{y}(t_N)$
 
 
 \item $\vec{y} = \mathbf{f}(\vec{x})$, where $\mathbf{f}$ is some nonlinear function
@@ -375,20 +395,20 @@ $$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 
 \item $\vec{x}$ comes from a multiscale SDE
 
 
-\item $\vec{z}$ is the {\em rescaled} verson of $\vec{x}$ which collapses the fast directions
+\item $\vec{z}$ is $\vec{x}$ rescaled to collapse fast directions
 
 
 
 \end{itemize}
 
-
+\centering
 \includegraphics[width=0.3\textwidth]{data_init_nonlinear}
 \hfill
 \includegraphics[width=0.3\textwidth]{data_init}
 \hfill
 \includegraphics[width=0.3\textwidth]{data_rescaled}
 
-We want to recover a parameterization of the data $\vec{y}(t_1), \vec{y}(t_2), \dots, \vec{y}(t_N)$ which respects the {\em slow variables}
+ Want a parameterization of data \\which is one-to-one with the {\em slow variables}
 
 \end{frame}
 
@@ -410,10 +430,11 @@ We want to recover a parameterization of the data $\vec{y}(t_1), \vec{y}(t_2), \
 
 \begin{frame}{Errors in Mahalanobis Distance}
 
-Goal: write $\| \vec{z}(t_2) - \vec{z}(t_1) \|$ in terms of $\vec{y}(t_1), \vec{y}(t_2)$
+Want to write $\| \vec{z}(t_2) - \vec{z}(t_1) \|$ in terms of $\vec{y}(t_1), \vec{y}(t_2)$
 
 Let $\mathbf{g} = \mathbf{f}^{-1}$. By Taylor expansion of $\mathbf{g}(y)$,
 %
+\makebox[\textwidth][c]{
 \begin{tikzpicture}
 \node[fill=orange!20](a) { {\scriptsize $
 \begin{aligned}
@@ -435,6 +456,7 @@ $}};
 \draw[->] (text3.north) -- (1.6,-0.8);
 
 \end{tikzpicture}
+}
 
 %\begin{equation}
 %\begin{aligned} 
@@ -488,7 +510,8 @@ $}};
 \end{tikzpicture}
 
 \vspace{-0.25cm}
-Want to choose kernel scale $\sigma_{kernel}$ \\such that Mahalanobis distance dominates
+\centering
+Choose kernel scale $\sigma_{kernel}$ \\where Mahalanobis distance dominates
 %
 %\includegraphics[width=0.5\textwidth]{dist_dy_nonlinear}
 
@@ -515,8 +538,33 @@ $}};
 
 \end{tikzpicture}
 
-Want $\| \vec{y}_2 - \vec{y}_1 \|^2_M \propto \| \vec{y}_2 - \vec{y}_1 \|^2_2$
+\centering
+Choose kernel scale $\sigma_{kernel}$ where $\| \vec{y}_2 - \vec{y}_1 \|^2_M \propto \| \vec{y}_2 - \vec{y}_1 \|^2_2$
 
+\end{frame}
+
+\begin{frame}{Calculating the Mahalanobis Distance}
+
+\begin{tikzpicture}
+
+\node[fill=orange!20]{{\scriptsize 
+$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M =
+\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1)) $ \par}};
+
+\node (a) at (1,-1)  {Need to estimate covariance};
+\draw[->] (a.north) -- (1.9,-0.2);
+\draw[->] (a.north) -- (0.25,-0.2);
+\end{tikzpicture}
+
+\vspace{1cm}
+
+Estimate using simulation bursts of length $\delta t$
+{\scriptsize
+$$\hat{C}_{ij} (\vec{x}_t, \delta t)
+=
+{\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
+- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)}$$
+}
 \end{frame}
 
 
@@ -757,6 +805,17 @@ x_2(t)
 
 \begin{frame}{Conclusions}
 
+\begin{itemize}
+\item Multiscale stochastic data arises in a variety of contexts
+\item Adapt data mining techniques to incorporate time scales
+\item Can extract slow variables from nonlinear data
+\item Future work: factoring out slow variables to parameterize fast
+\end{itemize}
+
+\centering
+\includegraphics[width=4cm]{csgf_logo}
+\hspace{2cm}
+\includegraphics[width=2cm]{nsf_logo}
 
 \end{frame}
 

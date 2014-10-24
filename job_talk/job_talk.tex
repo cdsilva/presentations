@@ -19,7 +19,7 @@
 
 \title{Data-Driven Methods for the Reduction \\of Multiscale Stochastic Data}
 
-\author{Carmeline J. Dsilva}
+\author{Carmeline J. Dsilva \\ {\scriptsize Joint work with Ronen Talmon, Ronald Coifman, and Yannis Kevrekidis}}
 \date{28 October 2014}
 
 \begin{document}
@@ -38,9 +38,11 @@
 
 \begin{frame}{Motivation}
 
+\centering
 Multiscale time series are ubiquitous
 
 \begin{tikzpicture}
+
 
 \node(DNA){\includegraphics[width=1in]{multiscale_DNA}};
 \node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
@@ -54,15 +56,16 @@ Multiscale time series are ubiquitous
 \end{tikzpicture}
 
 
-\begin{itemize}
-\item Stock market
-\item Internet traffic
-\item Molecular dynamics
-\item Ocean/atmosphere sciences
-\item Biology
-\end{itemize}
+%\begin{itemize}
+%\item Stock market
+%\item Internet traffic
+%\item Molecular dynamics
+%\item Ocean/atmosphere sciences
+%\item Biology
+%\end{itemize}
 
-Would like to extract the {\em slow variables} that govern the system dynamics
+\centering
+Want to extract the {\em slow variables} \\that govern the system dynamics
 
 \end{frame}
 
@@ -74,7 +77,7 @@ Would like to extract the {\em slow variables} that govern the system dynamics
 \centering
 \begin{tikzpicture}
 \node[fill=yellow!20, text width=3cm, align=center](a) {$ \frac{dx_1}{dt} = f(x_1,x_2) $ $ \frac{dx_2}{dt} = \frac{1}{\epsilon} g(x_1,x_2)$};
-\node[right=of a,fill=yellow!20, text width=3cm, align=center](b) {$ \frac{dx_1}{dt} = f(x_1,\overline{x_2}) $};
+\node[right=of a,fill=yellow!20, text width=3cm, align=center](b) {$ \frac{dx_1}{dt} = f(x_1,\hat{x_2}(x_1)) $};
 
 \draw[->] (a) -- (b);
 \end{tikzpicture}
@@ -120,7 +123,7 @@ We will focus on {\bf data reduction}
 
 \node[fill=orange!20](a) {$\begin{aligned}
 dx_i(t) &= a_i(\vec{x}(t)) dt + dW_i(t), & \: 1 \le i \le m \\
-dx_i(t) &= \frac{a_i(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_i(t) , & \: m+1 \le i \le n
+dx_j(t) &= \frac{a_j(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_j(t) , & \: m+1 \le j \le n
 \end{aligned}$};
 
 \node[below=0.5cm of a, text width=0.5\textwidth,fill=yellow!20](text1){small parameter $\epsilon$ creates separation of timescales};
@@ -142,7 +145,7 @@ Under some mild conditions, can write a {\em reduced} SDE
 
 \begin{tikzpicture}
 
-\node[fill=orange!20](a) {$dx_i(t) = \overline{a_i}(x_1(t), \dots, x_m(t)) dt + dW_i(t), \: 1 \le i \le m $};
+\node[fill=orange!20](a) {$dx_i(t) = \hat{a_i}(x_1(t), \dots, x_m(t)) dt + dW_i(t), \: 1 \le i \le m $};
 
 \end{tikzpicture}
 
@@ -185,7 +188,7 @@ Project onto hyperplane which captures maximum variance
     \end{tikzpicture}
 
 	\newfootnote{Coifman {\em et al}, PNAS, 2005.}
-
+ 
 \end{frame}
 
 \begin{frame}{Eigenfunctions to Parameterize a Manifold}
@@ -236,7 +239,7 @@ Project onto hyperplane which captures maximum variance
 
 \end{frame}
 
-\begin{frame}{DMAPS Implementation }
+\begin{frame}{Diffusion Maps Implementation }
 
 	
 	\newfootnote{Coifman {\em et al}, PNAS, 2005}
@@ -293,6 +296,9 @@ Construct a {\em metric} which captures relative time scales
 
 \begin{frame}{Mahalanobis Distance: A Good Metric}
 
+\centering
+The Mahalanobis distance is the Euclidean distance in a rescaled space where each term has unit variance
+
 \begin{block}{Mahalanobis distance, $\| \cdot \|_M$}
 $$\| \vec{x}(t_2) - \vec{x}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2$$
 where $\vec{z}$ obey the following SDEs
@@ -320,6 +326,16 @@ dx_i(t) &= \frac{a_i(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_i(
 z_i &= x_i, & \: 1 \le i \le m \\
 z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 \end{aligned}$ \par}};
+
+\draw[fill=orange] (-4,-2.5) ellipse (0.5cm and 1.5cm);
+\draw[fill=orange] (-1.5,-2.5) ellipse (0.5cm and 0.5cm);
+\draw[->, gray] (-4,-2.5) -- (-4,-1) node[ midway, black] {{\scriptsize $x_2$}};
+\draw[->, gray] (-4,-2.5) -- (-3.5,-2.5) node[ midway, black] {{\scriptsize $x_1$}};
+
+\draw[->, gray] (-1.5,-2.5) -- (-1.5,-2) node[ midway, black] {{\scriptsize $z_2$}};
+\draw[->, gray] (-1.5,-2.5) -- (-1,-2.5) node[ midway, black] {{\scriptsize $z_1$}};
+
+\path[->, thick] (-3.4,-2.5) edge [bend right] (-2.1,-2.5);
 
 \draw[->](a) -- (b);
 
@@ -379,6 +395,10 @@ Mahalanobis distance is invariant (to fourth order) \\to nonlinear transformatio
 $\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 + \mathcal{O}(\|  \vec{y}(t_2) - \vec{y}(t_1) \|^4_2)$
 \end{block}
 
+Diffusion maps uses a kernel
+
+Choose kernel width $\sigma_{kernel}$ where errors are small
+	
 \end{frame}
 
 \begin{frame}{Recap: General Setup}
@@ -494,8 +514,8 @@ $}};
 \node[fill=orange!20](a) { {\scriptsize $
 \begin{aligned}
 \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 =&
-{\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1))} \\
-&+ { E_M \left(\vec{y}(t_1), \vec{y}(t_2) \right)} + { \mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^6_2 \right)}
+{ \color{blue} \frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1))} \\
+&+ {\color{red} E_M \left(\vec{y}(t_1), \vec{y}(t_2) \right)} + { \mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^6_2 \right)}
 \end{aligned}
 $}};
 
@@ -556,15 +576,28 @@ $\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M =
 \draw[->] (a.north) -- (0.25,-0.2);
 \end{tikzpicture}
 
-\vspace{1cm}
+\vspace{0.5cm}
 
+\centering
 Estimate using simulation bursts of length $\delta t$
-{\scriptsize
-$$\hat{C}_{ij} (\vec{x}_t, \delta t)
-=
-{\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
-- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)}$$
-}
+%{\scriptsize
+%$$\hat{C}_{ij} (\vec{x}_t, \delta t)
+%=
+%{\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
+%- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)}$$
+%}
+
+\begin{tikzpicture}
+\node(a) {\includegraphics[width=0.3\textwidth]{mahalanobis_trajectories}};
+\node[right=0.25cm of a](b) {\includegraphics[width=0.3\textwidth]{mahalanobis_trajectories2}};
+\node[right=0.25cm of b](c) {\includegraphics[width=0.3\textwidth]{mahalanobis_points2}};
+
+\node[below right=0cm and -3.25cm of a, text width=0.3\textwidth, align=center](texta) {{\scriptsize Run many simulations of length $\delta t$ starting from initial point \par}};
+\node[below right=0cm and -3.25cm of b, text width=0.3\textwidth, align=center](textb) {{\scriptsize Collect cloud of final points \par}};
+\node[below right=0cm and -3.25cm of c, text width=0.3\textwidth, align=center](textc) {{\scriptsize Fit ellipse \par}};
+
+\end{tikzpicture}
+
 \end{frame}
 
 
@@ -643,9 +676,9 @@ $}};
 \begin{tikzpicture}
 \node[fill=orange!20](a) { {\scriptsize $
 \hat{C}_{ij} (\vec{x}_t, \delta t)
-= {\sum_{k=1}^m \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}
+= {\color{blue} \sum_{k=1}^m \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}
 + \frac{1}{\sqrt{\epsilon}} \sum_{k=m+1}^n  \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}}
-+ {E_{C, ij} (\vec{x}(t), \delta t)} + {\mathcal{O}(\delta t^{3/2})}
++ { \color{red} E_{C, ij} (\vec{x}(t), \delta t)} + {\mathcal{O}(\delta t^{3/2})}
 $}};
 
 \node[below=1cm of a](b){\includegraphics[width=0.5\textwidth]{C_dt_analytical_linear}};
@@ -716,14 +749,16 @@ $x_1$ is the slow variable, $x_2$ is the fast variable \newfootnote{$a=3$, $\eps
 \begin{frame}{Reduction of Linear Data}
 
 \begin{tikzpicture}
-\node(a){\includegraphics[width=0.5\textwidth]{data_linear_NIV}};
-\node[right=0cm of a](b){ \includegraphics[width=0.5\textwidth]{data_linear_DMAPS}};
+\node<.(2)->(a){\includegraphics[width=0.5\textwidth]{data_linear_NIV}};
+\node[left=0cm of a](b){ \includegraphics[width=0.5\textwidth]{data_linear_DMAPS}};
 
-\node[above=0cm of a, text width=0.45\textwidth, align=center](texta1){Using Mahalanobis distance};
-\node[below=0cm of a, text width=0.4\textwidth, align=center](texta2){{\scriptsize Parameterization is consistent with slow variable $x_1$ \par}};
+\node<.(2)->[above=0cm of a, text width=0.45\textwidth, align=center](texta1){Using Mahalanobis distance};
+\node<.(2)->[below=0cm of a, text width=0.4\textwidth, align=center](texta2){{\scriptsize Parameterization is consistent with slow variable $x_1$ \par}};
 
 \node[above=0cm of b, text width=0.4\textwidth, align=center](textb1){Using Euclidean distance};
 \node[below=0cm of b, text width=0.4\textwidth, align=center](textb2){{\scriptsize Parameterization is inconsistent with slow variable $x_1$ \par}};
+
+\node<.(2)->[below=of a](c){\includegraphics[width=0.2\textwidth]{data_init}};
 
 \end{tikzpicture}
 
@@ -760,7 +795,7 @@ x_2(t)
 \node(a){\includegraphics[width=0.3\textwidth]{C_dt_nonlinear}};
 \node[below=0cm of a](b){\includegraphics[width=0.3\textwidth]{dist_dy_nonlinear}};
 
-\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt1_kernel1} \\ Using an appropriate value of $\delta t$ and $\sigma_{kernel}$};
+\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt1_kernel1} \\ Using an appropriate value of $\delta t$ and $\sigma_{kernel}$ \\ {\scriptsize Parameterization is \\ one-to-one with slow variable \par}};
 
 \draw[->, red] (-0.35, 1.7) -- (-0.35,1.45);
 \draw[->, red] (1.85, -3.35) -- (1.6,-3.35);
@@ -776,7 +811,7 @@ x_2(t)
 \node(a){\includegraphics[width=0.3\textwidth]{C_dt_nonlinear}};
 \node[below=0cm of a](b){\includegraphics[width=0.3\textwidth]{dist_dy_nonlinear}};
 
-\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt2_kernel1} \\ $\delta t$ is too large};
+\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt2_kernel1} \\ $\delta t$ is too large \\ {\scriptsize Parameterization is not \\ one-to-one with slow variable \par}};
 
 \draw[->, red] (1.15, 1.7) -- (1.15,1.45);
 \draw[->, red] (1.85, -3.35) -- (1.6,-3.35);
@@ -792,7 +827,7 @@ x_2(t)
 \node(a){\includegraphics[width=0.3\textwidth]{C_dt_nonlinear}};
 \node[below=0cm of a](b){\includegraphics[width=0.3\textwidth]{dist_dy_nonlinear}};
 
-\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt1_kernel2} \\  $\sigma_{kernel}$ is too large};
+\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt1_kernel2} \\  $\sigma_{kernel}$ is too large \\{\scriptsize Parameterization is not \\ one-to-one with slow variable \par}};
 
 \draw[->, red] (-0.35, 1.7) -- (-0.35,1.45);
 \draw[->, red] (1.85, -2.4) -- (1.6,-2.4);
@@ -807,11 +842,13 @@ x_2(t)
 
 \begin{itemize}
 \item Multiscale stochastic data arises in a variety of contexts
-\item Adapt data mining techniques to incorporate time scales
-\item Can extract slow variables from nonlinear data
-\item Future work: factoring out slow variables to parameterize fast
+\item We can adapt data mining techniques to incorporate time scales
+\item We can then extract slow variables from nonlinear data
+\item Future work: using extracted slow variables to write reduced models
+
 \end{itemize}
 
+\vspace{2cm}
 \centering
 \includegraphics[width=4cm]{csgf_logo}
 \hspace{2cm}

@@ -855,13 +855,96 @@ x_2(t)
 
 \end{frame}
 
-\begin{frame}{Application: Molecular Dynamics}
+\begin{frame}{Alanine Dipeptide Simulations}
+
+    Our second example comes from the molecular dynamics simulation \footnote{
+    AMBER 10 molecular simulation package;
+    optimized version of the AMBER ff03 force field;
+    TIP3P water molecules;
+    periodic boundary conditions;
+    particle mesh Ewald method for long-range electrostatic interactions;
+    NVT ensemble;
+    temperature being maintained at 300~K with a Langevin thermostat;
+    hydrogen bond lengths are fixed using the SHAKE algorithm}
+    of Alanine Dipeptide (Ala2) in explicit solvent
+
+    \begin{minipage}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../NLICA/paper/FES}\\
+        {\small The free energy surface (FES) of Ala2 has three distinct wells}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.6\textwidth]{../NLICA/paper/molecule2}\\
+        {\small The FES is well parameterized by the two dihedral angles $\phi$ and $\psi$}
+    \end{minipage}
+
+    \vspace{0.1in}
+    We collect data around well B in the free energy surface
 
 \end{frame}
 
-\begin{frame}{Results}
+\begin{frame}{NIV Embeddings}
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{../DOE_CSGF_2013/molecule_all}\\
+        {\small In one data set, we observe all the atoms in the molecule \par}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{../DOE_CSGF_2013/molecule_odd}\\
+        {\small In one data set, we observe {\em only} the odd atoms in the molecule \par}
+    \end{minipage}
+
+    \vspace{0.2in}
+
+    \centering
+    We obtain (visually) consistent embeddings for the two data sets \\
+    \begin{minipage}{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../NLICA/paper/ala_figures_allodd/ala2_embed1}\\
+        (a)
+    \end{minipage}
+%    \hfill
+    \begin{minipage}{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../NLICA/paper/ala_figures_allodd/ala2_embed2}\\
+        (b)
+    \end{minipage}
+%    \hfill
+    \begin{minipage}{0.2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../NLICA/paper/ala_figures_allodd/ala2_embed3}\\
+        (c)
+    \end{minipage}\\
+    {\small The 3-dimensional NIV embeddings for Ala2 colored by (a) the y-coordinate of the first atom, (b) the dihedral angle $\phi$, and (c) the dihedral angle $\psi$. Each embedding is rotated so that the correlation between the colors and the relevant NIV can be visually clearer. \par}
 
 \end{frame}
+
+\begin{frame}{Reconstructions of Molecular Configurations}
+
+	\begin{itemize}
+		\item We would like to reconstruct the configuration of the {\em entire} molecule for data points where we only observe the odd atoms.
+		\item We chose to use a Laplacian Pyramid scheme for reconstruction/interpolation (this is only one of many algorithms that could be used)
+		\item We train a Laplacian Pyramid function from the NIV embedding space to the molecular configuration space, using the data set where we observe all the atoms as training data
+		
+		\item We then reconstruct the {\em full} configurations for the molecules where we only observe the {\em odd} atoms
+
+	\end{itemize}
+
+	\centering
+	\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{../NLICA/paper/molec_figures/molecule300_balls}
+	\hspace{0.05\textwidth}
+	\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{../NLICA/paper/molec_figures/molecule600_balls}
+	\hspace{0.05\textwidth}
+	\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{../NLICA/paper/molec_figures/molecule900_balls}\\
+	{\small \em True structure (black) and reconstructed structure (red) for three different data points}
+
+	\vspace{0.2in}
+	
+	There is good agreement between the true and reconstructed configurations
 
 \section{Conclusions}
 

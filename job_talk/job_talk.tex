@@ -510,6 +510,15 @@ $}};
 
 \begin{frame}{Setting the Kernel Scale}
 
+\centering
+{\small  
+For diffusion maps,
+$W_{ij} = \exp \left( -\frac{\| \vec{z}(t_i) - \vec{z}(t_j) \|_2^2}{\sigma_{kernel}^2} \right) $
+
+
+Choose $\sigma_{kernel}$ where Mahalanobis distance $\sim \| \vec{z}(t_i) - \vec{z}(t_j) \|_2$
+}
+
 \begin{tikzpicture}
 \node[fill=orange!20](a) { {\scriptsize $
 \begin{aligned}
@@ -527,28 +536,30 @@ $}};
 \draw[->] (text1.west) -- (2.5,-3.25);
 \draw[->] (text2.west) -- (2.5,-1.65);
 
-\end{tikzpicture}
+\draw[fill=yellow, opacity=0.2] (-1.7, -5.25) rectangle (2.4, -2);
 
-\vspace{-0.25cm}
-\centering
-Choose kernel scale $\sigma_{kernel}$ \\where Mahalanobis distance dominates
-%
-%\includegraphics[width=0.5\textwidth]{dist_dy_nonlinear}
+\node[left=0cm of b, align=center, text width=2.2cm](text3){{\scriptsize Acceptable range  for $\sigma_{kernel}$ \par}};
+\draw[->] (text3) -- (-1.5, -3);
+
+\end{tikzpicture}
 
 \end{frame}
 
 \begin{frame}{Setting the Kernel Scale Empirically}
 
 \begin{tikzpicture}
-\node[fill=orange!20](a) { {\scriptsize $
-\begin{aligned}
-\| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 =&
-{\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1))} \\
-&+ { E_M \left(\vec{y}(t_1), \vec{y}(t_2) \right)} + { \mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^6_2 \right)}
-\end{aligned}
-$}};
+%\node[fill=orange!20](a) { {\scriptsize $
+%\begin{aligned}
+%\| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 =&
+%{\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1))} \\
+%&+ { E_M \left(\vec{y}(t_1), \vec{y}(t_2) \right)} + { \mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^6_2 \right)}
+%\end{aligned}
+%$}};
 
-\node[below=0cm of a](b){\includegraphics[width=0.5\textwidth]{dist_dy_nonlinear}};
+\node[fill=orange!20](a) { {\small Choose kernel scale $\sigma_{kernel}$ where $\| \vec{y}_2 - \vec{y}_1 \|^2_M \propto \| \vec{y}_2 - \vec{y}_1 \|^2_2$
+}};
+
+\node[below=0.25cm of a](b){\includegraphics[width=0.5\textwidth]{dist_dy_nonlinear}};
 
 \node[right=0.5cm of b, text width=4cm](text1){{\scriptsize Mahalanobis distance dominates\par}};
 \node[above right=-1cm and 0.5cm of b, text width=4cm](text2){{\scriptsize Errors dominate \par}};
@@ -556,10 +567,11 @@ $}};
 \draw[->] (text1.west) -- (2.5,-3.25);
 \draw[->] (text2.west) -- (2.5,-1.65);
 
+\draw[fill=yellow, opacity=0.2] (-1.55, -5.25) rectangle (2.6, -2);
+
 \end{tikzpicture}
 
 \centering
-Choose kernel scale $\sigma_{kernel}$ where $\| \vec{y}_2 - \vec{y}_1 \|^2_M \propto \| \vec{y}_2 - \vec{y}_1 \|^2_2$
 
 \end{frame}
 
@@ -690,6 +702,12 @@ $}};
 \draw[->] (text1.south) --  (-0.1,-1.8);
 \draw[->] (text2.south) --  (1.5,-1.8);
 
+\draw[fill=yellow, opacity=0.2] (-1.8, -6.1) rectangle (1.5, -1.9);
+
+\node[below=0cm of b](text3){{\small Acceptable range of $\delta t$}};
+
+\draw[->] (text3.north) --  (0,-6.0);
+
 \end{tikzpicture}
 }
 
@@ -702,12 +720,8 @@ Want to choose $\delta t$ such that true covariance dominates
 
 \makebox[\textwidth][c]{
 \begin{tikzpicture}
-\node[fill=orange!20](a) { {\scriptsize $
-\hat{C}_{ij} (\vec{x}_t, \delta t)
-= {\sum_{k=1}^m \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}
-+ \frac{1}{\sqrt{\epsilon}} \sum_{k=m+1}^n  \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}}
-+ {E_{C, ij} (\vec{x}(t), \delta t)} + {\mathcal{O}(\delta t^{3/2})}
-$}};
+\node[fill=orange!20](a) { {\small Find where $\hat{C}$ is constant with respect to $\delta t$
+}};
 
 \node[below=1cm of a](b){\includegraphics[width=0.5\textwidth]{C_dt_linear}};
 
@@ -718,11 +732,16 @@ $}};
 \draw[->] (text1.south) --  (-0.1,-1.8);
 \draw[->] (text2.south) --  (1.5,-1.8);
 
+\draw[fill=yellow, opacity=0.2] (-1.8, -6) rectangle (1.5, -1.8);
+
+\node[below=0cm of b](text3){{\small Acceptable range of $\delta t$}};
+
+\draw[->] (text3.north) --  (0,-6.0);
+
+
 \end{tikzpicture}
 }
 
-\vspace{-0.25cm}
-Find where $\hat{C}$ is constant with respect to $\delta t$
 
 \end{frame}
 
@@ -836,6 +855,14 @@ x_2(t)
 
 \end{frame}
 
+\begin{frame}{Application: Molecular Dynamics}
+
+\end{frame}
+
+\begin{frame}{Results}
+
+\end{frame}
+
 \section{Conclusions}
 
 \begin{frame}{Conclusions}
@@ -853,6 +880,14 @@ x_2(t)
 \includegraphics[width=4cm]{csgf_logo}
 \hspace{2cm}
 \includegraphics[width=2cm]{nsf_logo}
+
+\end{frame}
+
+\begin{frame}{Another Story: Ordering Images}
+
+\end{frame}
+
+\begin{frame}
 
 \end{frame}
 

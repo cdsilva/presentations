@@ -10,13 +10,19 @@
 
 \usepackage{animate}
 \usepackage{epstopdf}
+\graphicspath{ {../ComputerGraphics_colloquium_14April2014/images/} }
+
+\setbeamerfont{footnote}{size=\tiny}
 
 
 \hyphenpenalty=10000
 
 \newcommand{\newfootnote}[1]{\let\thefootnote\relax\footnotetext{#1}}
 
-
+\setbeamertemplate{footline}{%
+  \raisebox{5pt}{\makebox[\paperwidth]{\hfill\makebox[10pt]{\scriptsize \color{gray} \insertframenumber}}}}
+  
+  
 \title{Data-Driven Methods for the Reduction \\of Multiscale Stochastic Data}
 
 \author{Carmeline J. Dsilva \\ {\scriptsize Joint work with Ronen Talmon, Ronald Coifman, and Yannis Kevrekidis}}
@@ -43,26 +49,21 @@ Multiscale time series are ubiquitous
 
 \begin{tikzpicture}
 
+\node(stockmarket){\includegraphics[width=1in]{stockmarket}};
+\node[below=0cm of stockmarket, align=center, text width=1.2in]{{\scriptsize Financial data \par} };
 
-\node(DNA){\includegraphics[width=1in]{multiscale_DNA}};
-\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
+\node[left=of stockmarket](proteins){\includegraphics[width=1in]{protein_CG}};
+\node[below=0cm of proteins, align=center, text width=1.2in]{{\scriptsize Molecular simulations \par} };
+%\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
 
-\node[right=of DNA](network_traffic){\includegraphics[width=1in]{multiscale_network_traffic}};
-\node[below=0cm of network_traffic, align=center, text width=1.2in](network_traffic_text){Network traffic \\ {\scriptsize Abry {\em et al}, {\em IEEE Signal Processing Magazine}, 2002 \par}};
-
-\node[right=of network_traffic](MD){\includegraphics[width=1in]{multiscale_MD}};
-\node[below=0cm of MD, align=center, text width=1.2in](MD_text){Molecular simulations \\ {\scriptsize Andres Jaramillo-Botero and William A. Goddard III, 2006\par}};
+\node[left=of proteins](rxnnetwork){\includegraphics[width=1in]{rxn_networks}};
+\node[below=0cm of rxnnetwork, align=center, text width=1in]{{\scriptsize Chemical reaction networks \par} };
 
 \end{tikzpicture}
 
+\newfootnote{{\tiny \texttt{ www.nercenergy.com/research/chemical\_networks.html; www.ks.uiuc.edu/Research/CG; www.wired.co.uk/news/archive/2013-05/8/wikipedia-views-stock-market }}}
 
-%\begin{itemize}
-%\item Stock market
-%\item Internet traffic
-%\item Molecular dynamics
-%\item Ocean/atmosphere sciences
-%\item Biology
-%\end{itemize}
+\vspace{0.5cm}
 
 \centering
 Want to extract the {\em slow variables} \\that govern the system dynamics
@@ -77,7 +78,7 @@ Want to extract the {\em slow variables} \\that govern the system dynamics
 \centering
 \begin{tikzpicture}
 \node[fill=yellow!20, text width=3cm, align=center](a) {$ \frac{dx_1}{dt} = f(x_1,x_2) $ $ \frac{dx_2}{dt} = \frac{1}{\epsilon} g(x_1,x_2)$};
-\node[right=of a,fill=yellow!20, text width=3cm, align=center](b) {$ \frac{dx_1}{dt} = f(x_1,\hat{x_2}(x_1)) $};
+\node[right=of a,fill=yellow!20, text width=3.5cm, align=center](b) {$ \frac{dx_1}{dt} = f(x_1,\hat{x_2}(x_1)) $};
 
 \draw[->] (a) -- (b);
 \end{tikzpicture}
@@ -126,21 +127,22 @@ dx_i(t) &= a_i(\vec{x}(t)) dt + dW_i(t), & \: 1 \le i \le m \\
 dx_j(t) &= \frac{a_j(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_j(t) , & \: m+1 \le j \le n
 \end{aligned}$};
 
-\node[below=0.5cm of a, text width=0.5\textwidth,fill=yellow!20](text1){small parameter $\epsilon$ creates separation of timescales};
-\node[above right=0cm and 0cm of a, text width=0.2\textwidth,fill=yellow!20](text2){$m$ slow variables};
+\node[below=0.5cm of a, text width=0.5\textwidth,fill=yellow!20, align=center](text1){small parameter $\epsilon$ creates separation of timescales};
+\node[above right=0.2cm and -1cm of a, text width=3cm,fill=yellow!20](text2){$m$ slow variables};
 
-\node[below right=0cm and 0cm of a, text width=0.2\textwidth,fill=yellow!20](text3){$n-m$ fast~variables};
+\node[below right=0.2cm and -1.5cm of a, text width=3.5cm,fill=yellow!20](text3){$n-m$ fast~variables};
 
 
 \draw[<-] (-2,-0.75)--(text1);
 \draw[<-] (0,-0.75)--(text1);
 
-\draw[<-] (4,0.8)--(text2.west);
-\draw[<-] (4,-0.75)--(text3.west);
+\draw[<-] (4,0.8)--(text2.south);
+\draw[<-] (4,-0.75)--(text3.north);
 
 
 \end{tikzpicture}
 
+\vspace{0.5cm}
 Under some mild conditions, can write a {\em reduced} SDE 
 
 \begin{tikzpicture}
@@ -166,9 +168,9 @@ Want to extract a parameterization of $x_1, \dots, x_m$ from {\em data}
 \draw[->] (a) -- (b) node[above, midway]{{\small Data reduction}};
 \end{tikzpicture}
 
-Common technique: Principal component analysis \\
-Project onto hyperplane which captures maximum variance 
-\newfootnote{Shlens, ``A Tutorial on Principal Component Analysys}
+Common technique: Principal Component Analysis \\
+{\em Project onto hyperplane which captures maximum variance }
+\newfootnote{Shlens, ``A Tutorial on Principal Component Analysis}
 \end{frame}
 
 \begin{frame}{Diffusion Maps for Nonlinear Data Reduction}
@@ -193,32 +195,22 @@ Project onto hyperplane which captures maximum variance
 
 \begin{frame}{Eigenfunctions to Parameterize a Manifold}
 
-    %\vspace{0.15in}
-    {\scriptsize
-    \begin{minipage}[t]{0.3\textwidth}
-        \centering
-        Consider a manifold\\
-        \includegraphics[width=\textwidth]{rect.jpg}\\
+	\makebox[\textwidth][c]{
+	\begin{tikzpicture}[node distance=0cm]
+	
+	\node(manifold){\includegraphics[width=0.3\textwidth]{rect.jpg}};
+	\node[above=of manifold, text width=3.5cm, align=center]{{\scriptsize Consider a manifold \par}};
+	
+	\node[right=of manifold](eigenfunctions){\animategraphics[width=0.35\textwidth]{1}{rect_efunc}{1}{6}};
+	\node[above=of eigenfunctions, text width=3.5cm, align=center]{{\scriptsize We want a ``good'' parametrization of~the manifold \par}};
+	\node[below=of eigenfunctions, text width=4cm, align=center]{{\scriptsize These parameterizations are the~eigenfunctions of $\nabla^2 \phi$ \par}};
+	
+	\node[right=of eigenfunctions](eigenvectors){\animategraphics[width=0.35\textwidth]{1}{rect_evec}{1}{6}};
+	\node[above=of eigenvectors, text width=3.5cm, align=center]{{\scriptsize Instead, we have data {\em sampled} from the manifold and want to~obtain a parameterization \par}};
+	\node[below=of eigenvectors, text width=3.5cm, align=center]{{\scriptsize We therefore {\em approximate} the~Laplacian on the data \par}};
 
-
-    \end{minipage}
-    \begin{minipage}[t]{0.35\textwidth}
-        \centering
-        We want a ``good'' parametrization of~the manifold\\
-        \vspace{0.1in}
-        \animategraphics[width=\textwidth]{1}{rect_efunc}{1}{6}\\
-        \vspace{-0.03in}
-        These parameterizations are the~eigenfunctions of $\nabla^2 \phi$\\
-    \end{minipage}
-    \begin{minipage}[t]{0.3\textwidth}
-        \centering
-        Instead, we have data {\em sampled} from the manifold and want to~obtain a parameterization\\
-        \vspace{0.1in}
-        \animategraphics[width=\textwidth]{1}{rect_evec}{1}{6}\\
-        \vspace{0.1in}
-        We therefore {\em approximate} the~Laplacian on the data
-    \end{minipage}
-    \par}
+	\end{tikzpicture}
+	}
 
     \vspace{0.1in}
 
@@ -250,17 +242,35 @@ Project onto hyperplane which captures maximum variance
 	
 	\node[fill=orange!20, text width=2.5cm, align=center](data){{\scriptsize {\bf Data} $y_1, y_2, \dots, y_n \in \mathbb{R}^d$  sampled from manifold $\mathcal{M}$ \par}};
 	
-	
-	\node[fill=orange!20, text width=4cm, right=of data, align=center](matrix){{\scriptsize {\bf Matrix} $W \in \mathbb{R}^{n \times n}$ \\
-        $W_{ij} = \exp \left( -\frac{d^2 (y_i, y_j)}{\sigma_{kernel}^2} \right) $\\ 
-         $\sigma_{kernel}$: characteristic distance \\
-	 Diagonal matrix $D$: $D_{ii} = \sum_{j=1}^{n} W_{ij}$\\ 
+	\draw (-1,1) rectangle (1,2);
+	\foreach \i in {-100,...,100}
+	{
+	 	\draw (\i/100,0.48*rand+1.35) node[anchor=south] {.};
+	}
+
+	\node[fill=orange!20, text width=4cm, right=of data, align=center](matrix){{\scriptsize {\bf Matrix} \\
+        $ W  \in \mathbb{R}^{n \times n} $ \\
+        $W_{ij} = \exp \left( -\frac{d^2 (y_i, y_j)}{\sigma_{kernel}^2}  \right)  $ \\
+        \vspace{0.5cm}
+	 Diagonal matrix $D$: \\
+	 $D_{ii} = \sum_{j=1}^{n} W_{ij}$\\ 
+	 \vspace{0.5cm}
 	 Matrix $A =  D^{-1} W$ \par}};
 	
 	\node[fill=orange!20, text width=3cm, right=of matrix, align=center](eigenvectors){{\scriptsize Compute {\bf eigenvectors} $\phi_0, \phi_1, \dots, \phi_{n-1}$ and {\bf eigenvalues} $\lambda_0, \lambda_1, \dots, \lambda_{n-1}$ of $A$ \par}};
 
-		\node[fill=yellow!20, text width=3cm, above=0.1cm of matrix, align=center](distance){{\scriptsize $d(y_i, y_j)$ is a distance metric \par}};
+		\node[fill=yellow!20, text width=4cm, above=1.5cm of matrix, align=center](distance){{\scriptsize $d(y_i, y_j)$ is a distance metric \\
+		$\sigma_{kernel}$: characteristic distance \par}};
 
+	\draw (3.5,2) rectangle (5.5,3);
+	\draw[fill=orange, opacity=0.5] (4,2.5) circle (0.15);
+	
+	\draw[->] (distance) ++ (-1.8,-0.3) -- (4,2.65);
+	
+	\foreach \i in {-100,...,100}
+	{
+	 	\draw (\i/100+4.5,0.48*rand+2.35) node[anchor=south] {.};
+	}
 		\node[fill=yellow!20, text width=3.7cm, below=0.1cm of matrix, align=center](laplacian){{\scriptsize $I-A$ approximates Laplacian on manifold $\mathcal{M}$ \par}};
 		
 		\node[fill=yellow!20, text width=3.2cm, below=0.1cm of eigenvectors, align=center](eigenfunctions){{\scriptsize Eigenvectors approximate eigenfunctions of Laplacian {\em on~manifold} $\mathcal{M}$ \par}};
@@ -279,15 +289,14 @@ Project onto hyperplane which captures maximum variance
 
 \begin{frame}{Data-Driven Reduction for Multiscale Data}
 
+\centering
 {\small Direction of largest variance is not necessarily the {\em slow} direction}
 
-\begin{center}
 \begin{tikzpicture}
 \node(a){\includegraphics[width=6cm]{data_init}};
 \draw[->, red] (-2,-2.25) -- (1,-2.25) node [draw=none,midway,below=0cm, red] {Slow direction};
 \draw[->, red] (-3.5,-2) -- (-3.5,2) node [draw=none,midway,left=0cm, rotate=90,red, anchor=center, align=center] {Fast direction\\ Large variance};
 \end{tikzpicture}
-\end{center}
 %\includegraphics[width=0.5\textwidth]{data_linear_DMAPS}
 
 Construct a {\em metric} which captures relative time scales 
@@ -341,16 +350,6 @@ z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 
 \end{tikzpicture}
 
-
-%\begin{equation*}
-%\begin{aligned}
-%dx_i(t) &= a_i(\vec{x}(t)) dt + dW_i(t), & \: 1 \le i \le m \\
-%dx_i(t) &= \frac{a_i(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_i(t) , & \: m+1 \le i \le n
-%\end{aligned}
-%\end{equation*}
-%this amounts to . 
-
-
 \end{frame}
 
 \begin{frame}{Mahalanobis Distance Collapses Fast Directions}
@@ -379,11 +378,12 @@ z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 
 \begin{frame}{Nonlinear Data}
 
+\centering
 \begin{block}
 
 We could have data
 $$\vec{y} = \mathbf{f}(\vec{x})$$
-where $\mathbf{f}$ is some nonlinear measurement function. 
+where $\mathbf{f}$ is some nonlinear measurement function
 \end{block}
 
 \newfootnote{Coifman and Singer, ACHA, 2009}
@@ -434,25 +434,32 @@ Choose kernel width $\sigma_{kernel}$ where errors are small
 
 \section{Error Analysis}
 
-%\begin{frame}{General Error Terms}
-%
-%\includegraphics[width=0.7\textwidth]{schematic}
-%
-%\begin{enumerate}
-%
-%\item Error from Taylor expansion
-%
-%\item Error from covariance estimation
-%
-%\end{enumerate}
-%
-%\end{frame}
+\begin{frame}{Mahalanobis Distance Approximation}
+
+\centering
+
+ 
+For diffusion maps,
+$W_{ij} = \exp \left( -\frac{\| \vec{z}(t_i) - \vec{z}(t_j) \|_2^2}{\sigma_{kernel}^2} \right) $
+
+Approximate $\| \vec{z}(t_i) - \vec{z}(t_j) \|_2$ using Mahalanobis distance
+
+\vspace{0.5cm}
+
+\includegraphics[width=0.8\textwidth, trim=0cm 5cm 0cm 0cm, clip]{schematic}
+
+Choose $\sigma_{kernel}$ such that Mahalanobis distance approximation \\ is accurate
+within ball of radius $\sigma_{kernel}$
+
+\end{frame}
 
 \begin{frame}{Errors in Mahalanobis Distance}
 
 Want to write $\| \vec{z}(t_2) - \vec{z}(t_1) \|$ in terms of $\vec{y}(t_1), \vec{y}(t_2)$
 
-Let $\mathbf{g} = \mathbf{f}^{-1}$. By Taylor expansion of $\mathbf{g}(y)$,
+\vspace{0.5cm}
+
+By Taylor expansion,
 %
 \makebox[\textwidth][c]{
 \begin{tikzpicture}
@@ -466,7 +473,7 @@ $}};
 
 \node[above=0.5cm of a, fill=yellow!20, align=center, text width=6cm](text1){{\small Mahalanobis distance\\$C$ is the covariance of $\vec{y}$ \\$\dagger$ denotes the pseudoinverse \par}};
 
-\node[below left=0.5cm and -6cm of a, fill=yellow!20, align=center, text width=6cm](text2){{\small $\mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^4_2 \right)$ error term\\ Involves second- and higher-order derivatives of $\mathbf{g}$ \par}};
+\node[below left=0.5cm and -6cm of a, fill=yellow!20, align=center, text width=6cm](text2){{\small $\mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^4_2 \right)$ error term\\ Involves second- and higher-order derivatives of $\mathbf{f}^{-1}$ \par}};
 
 \node[below right=0.5cm and -4cm of a, fill=yellow!20, align=center, text width=4cm](text3){{\small Higher-order error term}};
 
@@ -612,6 +619,24 @@ Estimate using simulation bursts of length $\delta t$
 
 \end{frame}
 
+\begin{frame}{Covariance Estimation}
+
+\centering
+
+ 
+Estimate local covariance by fitting an ellipse to data
+
+\vspace{0.5cm}
+
+\includegraphics[width=\textwidth, trim=0cm 0cm 0cm 5cm, clip]{schematic}
+
+\vspace{0.5cm}
+
+Choose $\delta t$ such that nonlinear effects are minimal 
+
+\end{frame}
+
+
 
 \begin{frame}{Errors from covariance estimation}
 
@@ -704,15 +729,12 @@ $}};
 
 \draw[fill=yellow, opacity=0.2] (-1.8, -6.1) rectangle (1.5, -1.9);
 
-\node[below=0cm of b](text3){{\small Acceptable range of $\delta t$}};
+\node[below=0cm of b](text3){{\scriptsize Acceptable range of $\delta t$}};
 
 \draw[->] (text3.north) --  (0,-6.0);
 
 \end{tikzpicture}
 }
-
-\vspace{-0.25cm}
-Want to choose $\delta t$ such that true covariance dominates
 
 \end{frame}
 
@@ -778,6 +800,7 @@ $x_1$ is the slow variable, $x_2$ is the fast variable \newfootnote{$a=3$, $\eps
 \node[below=0cm of b, text width=0.4\textwidth, align=center](textb2){{\scriptsize Parameterization is inconsistent with slow variable $x_1$ \par}};
 
 \node<.(2)->[below=of a](c){\includegraphics[width=0.2\textwidth]{data_init}};
+\node<.(2)->[left=0cm of c]{{\scriptsize Data colored by time}};
 
 \end{tikzpicture}
 
@@ -807,21 +830,6 @@ x_2(t)
 
 \end{frame}
 
-\begin{frame}{Reduction of Nonlinear Data}
-
-\begin{tikzpicture}
-
-\node(a){\includegraphics[width=0.3\textwidth]{C_dt_nonlinear}};
-\node[below=0cm of a](b){\includegraphics[width=0.3\textwidth]{dist_dy_nonlinear}};
-
-\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt1_kernel1} \\ Using an appropriate value of $\delta t$ and $\sigma_{kernel}$ \\ {\scriptsize Parameterization is \\ one-to-one with slow variable \par}};
-
-\draw[->, red] (-0.35, 1.7) -- (-0.35,1.45);
-\draw[->, red] (1.85, -3.35) -- (1.6,-3.35);
-
-\end{tikzpicture}
-
-\end{frame}
 
 \begin{frame}{Reduction of Nonlinear Data}
 
@@ -855,28 +863,44 @@ x_2(t)
 
 \end{frame}
 
-\begin{frame}{Alanine Dipeptide Simulations}
+\begin{frame}{Reduction of Nonlinear Data}
 
-    Our second example comes from the molecular dynamics simulation \footnote{
-    AMBER 10 molecular simulation package;
+\begin{tikzpicture}
+
+\node(a){\includegraphics[width=0.3\textwidth]{C_dt_nonlinear}};
+\node[below=0cm of a](b){\includegraphics[width=0.3\textwidth]{dist_dy_nonlinear}};
+
+\node[below right=-3cm and 1cm of a, align=center, text width=0.5\textwidth](c){\includegraphics[width=\textwidth]{data_nonlinear_NIV_dt1_kernel1} \\ Using an appropriate value of $\delta t$ and $\sigma_{kernel}$ \\ {\scriptsize Parameterization is \\ one-to-one with slow variable \par}};
+
+\draw[->, red] (-0.35, 1.7) -- (-0.35,1.45);
+\draw[->, red] (1.85, -3.35) -- (1.6,-3.35);
+
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}{Data from Molecular Dynamics Simulations}
+
+	Simulate alanine dipeptide (Ala2) in explicit solvent \\
+	{\tiny AMBER 10 molecular simulation package;
     optimized version of the AMBER ff03 force field;
     TIP3P water molecules;
     periodic boundary conditions;
     particle mesh Ewald method for long-range electrostatic interactions;
     NVT ensemble;
     temperature being maintained at 300~K with a Langevin thermostat;
-    hydrogen bond lengths are fixed using the SHAKE algorithm}
-    of Alanine Dipeptide (Ala2) in explicit solvent
-
+    hydrogen bond lengths are fixed using the SHAKE algorithm \par}
+    
     \begin{minipage}[t]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{../NLICA/paper/FES}\\
+        \includegraphics[width=\textwidth]{FES}\\
         {\small The free energy surface (FES) of Ala2 has three distinct wells}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.6\textwidth]{../NLICA/paper/molecule2}\\
+        \includegraphics[width=0.6\textwidth]{molecule2}\\
         {\small The FES is well parameterized by the two dihedral angles $\phi$ and $\psi$}
     \end{minipage}
 
@@ -885,66 +909,90 @@ x_2(t)
 
 \end{frame}
 
-\begin{frame}{NIV Embeddings}
+\begin{frame}{Diffusion Maps Embeddings}
+
+	{\small
+	Mahalanobis distance factors out nonlinear measurement functions \\
+	Different measurements yield consistent embeddings
+	\par}
+	
     \begin{minipage}[t]{0.45\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{../DOE_CSGF_2013/molecule_all}\\
-        {\small In one data set, we observe all the atoms in the molecule \par}
+        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{molecule_all}\\
+        {\scriptsize In one data set, we observe all the atoms in the molecule \par}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{../DOE_CSGF_2013/molecule_odd}\\
-        {\small In one data set, we observe {\em only} the odd atoms in the molecule \par}
+        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{molecule_odd}\\
+        {\scriptsize In one data set, we observe {\em only} the odd atoms in the molecule \par}
     \end{minipage}
 
     \vspace{0.2in}
 
     \centering
-    We obtain (visually) consistent embeddings for the two data sets \\
+    {\scriptsize 
     \begin{minipage}{0.2\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{../NLICA/paper/ala_figures_allodd/ala2_embed1}\\
+        \includegraphics[width=\textwidth]{ala2_embed1}\\
         (a)
     \end{minipage}
 %    \hfill
     \begin{minipage}{0.2\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{../NLICA/paper/ala_figures_allodd/ala2_embed2}\\
+        \includegraphics[width=\textwidth]{ala2_embed2}\\
         (b)
     \end{minipage}
 %    \hfill
     \begin{minipage}{0.2\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{../NLICA/paper/ala_figures_allodd/ala2_embed3}\\
+        \includegraphics[width=\textwidth]{ala2_embed3}\\
         (c)
-    \end{minipage}\\
-    {\small The 3-dimensional NIV embeddings for Ala2 colored by (a) the y-coordinate of the first atom, (b) the dihedral angle $\phi$, and (c) the dihedral angle $\psi$. Each embedding is rotated so that the correlation between the colors and the relevant NIV can be visually clearer. \par}
+    \end{minipage}}
+    
+    \vspace{0.1in}
+        {\small We obtain (visually) consistent embeddings for the two data sets }
+
+    {\em \scriptsize The 3-dimensional NIV embeddings for Ala2 colored by (a) the y-coordinate of the first atom, (b) the dihedral angle $\phi$, and (c) the dihedral angle $\psi$. \par}
 
 \end{frame}
 
 \begin{frame}{Reconstructions of Molecular Configurations}
-
-	\begin{itemize}
-		\item We would like to reconstruct the configuration of the {\em entire} molecule for data points where we only observe the odd atoms.
-		\item We chose to use a Laplacian Pyramid scheme for reconstruction/interpolation (this is only one of many algorithms that could be used)
-		\item We train a Laplacian Pyramid function from the NIV embedding space to the molecular configuration space, using the data set where we observe all the atoms as training data
-		
-		\item We then reconstruct the {\em full} configurations for the molecules where we only observe the {\em odd} atoms
-
-	\end{itemize}
-
-	\centering
-	\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{../NLICA/paper/molec_figures/molecule300_balls}
-	\hspace{0.05\textwidth}
-	\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{../NLICA/paper/molec_figures/molecule600_balls}
-	\hspace{0.05\textwidth}
-	\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{../NLICA/paper/molec_figures/molecule900_balls}\\
-	{\small \em True structure (black) and reconstructed structure (red) for three different data points}
-
-	\vspace{0.2in}
 	
-	There is good agreement between the true and reconstructed configurations
+		\makebox[\textwidth][c]{
+
+	\begin{tikzpicture}
+	
+	\node(a) {\includegraphics[width=2cm]{ala2_embed1}};
+	\node[right=3cm of a](b) {\includegraphics[width=2cm, trim=0in 0.2in 0in 0.2in, clip]{molecule_all}};
+	
+	\draw[->] (a.east) -- (b.west) node[above, midway, text width=3.5cm, align=center] {{\scriptsize Train function \\ $h:$ embedding $\mapsto$ atoms \par}};
+	
+	\node[below=0.1cm of a](d){\includegraphics[width=2cm]{ala2_embed1}};
+	
+	\node[left=2cm of d](c){\includegraphics[width=2cm, trim=0in 0.2in 0in 0.2in, clip]{molecule_odd}};
+	\node[right=3cm of d](e) {\includegraphics[width=2cm, trim=0in 0.2in 0in 0.2in, clip]{molecule_all}};
+	
+	\draw[->] (c.east) -- (d.west) node[above, midway, text width=3.5cm, align=center] {{\scriptsize Calculate embedding of odd atoms \par}};
+	\draw[->] (d.east) -- (e.west) node[above, midway, text width=3.5cm, align=center] {{\scriptsize Calculate locations of all atoms using $h$\par}};
+
+	\node[below=0cm of d](molec1){\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule300_balls}};
+	\node[right=0cm of molec1](molec2){\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule600_balls}};
+	\node[left=0cm of molec1](molec3){\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule900_balls}};
+	
+	\node[below=-0.2cm of molec1, align=center, text width=0.75\textwidth](molec_text){{\scriptsize \em True structure (black) and reconstructed structure (red) for three different data points \par}};
+	
+	\draw[fill=gray, opacity=0.2] (molec3.north west) rectangle (molec_text.south east);
+	
+	%\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule600_balls}
+	%\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule900_balls}%\\
+	%{\scriptsize \em True structure (black) and reconstructed structure (red) for three different data points}
+	%};
+	
+	\end{tikzpicture}
+	}
+
+\end{frame}
 
 \section{Conclusions}
 
@@ -952,9 +1000,9 @@ x_2(t)
 
 \begin{itemize}
 \item Multiscale stochastic data arises in a variety of contexts
-\item We can adapt data mining techniques to incorporate time scales
-\item We can then extract slow variables from nonlinear data
-\item Future work: using extracted slow variables to write reduced models
+\item Adapt data mining techniques to incorporate time scales
+\item Extract slow variables from nonlinear data
+\item Future work: using extracted slow variables \\to write reduced models
 
 \end{itemize}
 
@@ -966,11 +1014,135 @@ x_2(t)
 
 \end{frame}
 
-\begin{frame}{Another Story: Ordering Images}
+\begin{frame}{Reconstructing Dynamics from Snapshots}
+
+Two types of data collection schemes% \\ when studying developmental dynamics
+
+\begin{description}
+\item[Longitudinal] Developmental trajectory of {\em a single organism} \\is monitored over time
+\item[Cross-sectional] Samples from {\em many organisms} are collected; each organism contributes only a single snapshot from the developmental process
+\end{description}
+
+%\vspace{0.1in}
+\begin{center}
+We will look at cross-sectional imaging data. %The tasks are
+%then to \textcolor{bold}{register} and \textcolor{bold}{temporally order} the snapshots to obtain a representative developmental trajectory.
+
+\includegraphics[width=2in]{fig1}
+
+{\scriptsize A caricature of ordering cross-sectional data. \\
+(Left) Fish, each in a different stage of development.  (Right) Fish, now registered and temporally ordered. \par}
+\end{center}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Dynamics of {\em Drosophila} Embryogenesis}
+
+\begin{minipage}[b]{0.7\textwidth}
+{\small
+ {\em Drosophila melanogaster} (common fruit fly): model organism in developmental biology \par}
+%
+\end{minipage}
+\hspace{0.2in}
+\includegraphics[width=0.7in]{drosophila_picture}
+
+\begin{center}
+We will look at optical sections \\ perpendicular to the long axis of the embryo
+
+\includegraphics[width=2.5in]{drosophila_schematic}
+
+\begin{tikzpicture}
+\node[] (a) {\includegraphics[width=1.25in]{longitudinal_45min}};
+\node[right=0.4in of a] (b) {\includegraphics[width=0.75in]{DV_45min}};
+\draw[->] (a.east) -- (b.west);
+\end{tikzpicture}
+
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Data Collection}
+
+\begin{center}
+\includegraphics[width=4in]{drosophila_imaging_setup}
+
+\vspace{0.2in}
+
+We obtain images at a fixed depth (90~$\mu m$) \\from the tip of the embryo.
+
+Each embryo is in a different rotational orientation.
+
+\end{center}
+
+\newfootnote{Chung {\em et al}, {\em Nature Methods}, 2011}
+
+\end{frame}
+
+\begin{frame}{A Typical Data Set}
+\begin{center}
+\includegraphics[width=0.75\textwidth]{drosophila_data_unordered}
+\end{center}
+
+
+\begin{itemize}
+{\small
+\item Each image is from a different embryo 
+\item Each embryo is stained for three different proteins
+\item Each embryo is at a different (and unknown) developmental time
+\item Each embryo is also at a different (and unknown) orientation
+\par}
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Methods for Registration and Ordering}
+
+\centering
+Simultaneously register and order using vector diffusion maps 
+\newfootnote{Singer and Wu, Commun Pure Appl Math, 2012}
+
+\includegraphics[width=0.6\textwidth]{synchronization_schematic}
+
+\end{frame}
+
+\begin{frame}{Registered and Ordered Images}
+
+\centering 
+
+Compared vector diffusion maps ordering \\
+with manual ordering by an expert
+
+\includegraphics[width=0.7\textwidth]{drosophila_data_ordered}
+%
+\includegraphics[width=0.25\textwidth]{drosophila_data_corr}
+
+Can compute an {\em average developmental trajectory}
+\includegraphics[width=\textwidth]{drosophila_data_averaged}
+
+\end{frame}
+
+\begin{frame}{Conclusions}
+
+\begin{itemize}
+\item Multiscale stochastic data arises in a variety of contexts
+\item We can adapt data mining techniques to incorporate time scales
+\item We can then extract slow variables from nonlinear data
+\item Future work: using extracted slow variables to write reduced models
+
+\end{itemize}
+
+\vspace{0.2cm}
+
+\begin{itemize}
+\item Diffusion maps can also be used to analyze complex imaging data sets
+\end{itemize}
+
+\vspace{1cm}
+\centering
+\includegraphics[width=4cm]{csgf_logo}
+\hspace{2cm}
+\includegraphics[width=2cm]{nsf_logo}
 
 \end{frame}
 

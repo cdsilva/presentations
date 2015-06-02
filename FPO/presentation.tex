@@ -7,6 +7,8 @@
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+
 
 \usepackage{animate}
 \usepackage{epstopdf}
@@ -41,11 +43,27 @@
 
 \begin{frame}{Data Mining}
 
-\includegraphics[width=2in]{dilbert}
-%
-\includegraphics[width=2in]{popular_science}
+\begin{tikzpicture}
 
-Data + Mathematical Model -> Better Understanding
+\node [align=center] (a) {Data};
+\node [right=of a, align=center] (b) {Mathematical Model};
+\node [right=of b] (c) {Better Understanding};
+
+\draw[->] (b) -- (c);
+\node at ($(a)!0.3!(b)$) {+};
+
+\node[below=0in of a]{\includegraphics[height=1in]{LLE_faces_unordered}};
+\node[below=0in of b]{\includegraphics[height=1in]{LLE_algorithm}};
+\node[below=0in of c]{\includegraphics[height=1in]{LLE_faces}};
+
+\end{tikzpicture}
+
+\centering
+\includegraphics[width=3in]{dilbert}
+%
+%\includegraphics[width=1in]{popular_science}
+
+\newfootnote{Roweis and Saul, {\em Science}, 2000.}
 
 \end{frame}
 
@@ -62,7 +80,7 @@ Data + Mathematical Model -> Better Understanding
 
 Common technique: Principal Component Analysis \\
 {\em Project onto hyperplane which captures maximum variance }
-\newfootnote{Shlens, ``A Tutorial on Principal Component Analysis}
+\newfootnote{Shlens, ``A Tutorial on Principal Component Analysis''}
 \end{frame}
 
 \begin{frame}{Diffusion Maps for Nonlinear Data Reduction}
@@ -183,15 +201,23 @@ Common technique: Principal Component Analysis \\
 
 Many systems of engineering interest involve {\em dynamics}
 
-gene expression
+\begin{tikzpicture}
 
-fluid flow
+\node(stockmarket){\includegraphics[width=1in]{comsol}};
+\node[below=0cm of stockmarket, align=center, text width=1.2in]{{\scriptsize Fluid flow \par} };
 
-chemical reactions
+\node[left=of stockmarket](proteins){\includegraphics[width=1in]{eigengenes}};
+\node[below=0cm of proteins, align=center, text width=1.2in]{{\scriptsize Gene expression \par} };
+%\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
 
+\node[left=of proteins](rxnnetwork){\includegraphics[width=1in]{rxn_networks}};
+\node[below=0cm of rxnnetwork, align=center, text width=1in]{{\scriptsize Chemical reaction networks \par} };
+
+\end{tikzpicture}
+
+\newfootnote{{\tiny \texttt{ www.nercenergy.com/research/chemical\_networks.html}; Alter {\em et al}, {\em PNAS}, 2000; \texttt{www.comsol.com}.}}
 
 Advances in simulations and experiments means there is more data available for these systems
-
 
 
 \end{frame}
@@ -274,56 +300,42 @@ We will focus on {\bf data reduction}
 
 \end{frame}
 
-%\begin{frame}{Outline}
+%\begin{frame}{Assumed Model for Multiscale Data}
 %
-%\tableofcontents
-%%\begin{itemize}
-%%\item Multiscale SDE framework
-%%\item Data reduction (diffusion maps)
-%%\item Mahalnobis distance to capture relevant timescales
-%%\item Examples
-%%\item Conclusion/applications/future work
-%%\end{itemize}
+%\begin{tikzpicture}
+%
+%\node[fill=orange!20](a) {$\begin{aligned}
+%dx_i(t) &= a_i(\vec{x}(t)) dt + dW_i(t), & \: 1 \le i \le m \\
+%dx_j(t) &= \frac{a_j(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_j(t) , & \: m+1 \le j \le n
+%\end{aligned}$};
+%
+%\node[below=0.5cm of a, text width=0.5\textwidth,fill=yellow!20, align=center](text1){small parameter $\epsilon$ creates separation of timescales};
+%\node[above right=0.2cm and -1cm of a, text width=3cm,fill=yellow!20](text2){$m$ slow variables};
+%
+%\node[below right=0.2cm and -1.5cm of a, text width=3.5cm,fill=yellow!20](text3){$n-m$ fast~variables};
+%
+%
+%\draw[<-] (-2,-0.75)--(text1);
+%\draw[<-] (0,-0.75)--(text1);
+%
+%\draw[<-] (4,0.8)--(text2.south);
+%\draw[<-] (4,-0.75)--(text3.north);
+%
+%
+%\end{tikzpicture}
+%
+%\vspace{0.5cm}
+%Under some mild conditions, can write a {\em reduced} SDE 
+%
+%\begin{tikzpicture}
+%
+%\node[fill=orange!20](a) {$dx_i(t) = \hat{a_i}(x_1(t), \dots, x_m(t)) dt + dW_i(t), \: 1 \le i \le m $};
+%
+%\end{tikzpicture}
+%
+%Want to extract a parameterization of $x_1, \dots, x_m$ from {\em data}
 %
 %\end{frame}
-
-\begin{frame}{Assumed Model for Multiscale Data}
-
-
-\begin{tikzpicture}
-
-\node[fill=orange!20](a) {$\begin{aligned}
-dx_i(t) &= a_i(\vec{x}(t)) dt + dW_i(t), & \: 1 \le i \le m \\
-dx_j(t) &= \frac{a_j(\vec{x}(t))}{\epsilon} dt + \frac{1}{\sqrt{\epsilon}} dW_j(t) , & \: m+1 \le j \le n
-\end{aligned}$};
-
-\node[below=0.5cm of a, text width=0.5\textwidth,fill=yellow!20, align=center](text1){small parameter $\epsilon$ creates separation of timescales};
-\node[above right=0.2cm and -1cm of a, text width=3cm,fill=yellow!20](text2){$m$ slow variables};
-
-\node[below right=0.2cm and -1.5cm of a, text width=3.5cm,fill=yellow!20](text3){$n-m$ fast~variables};
-
-
-\draw[<-] (-2,-0.75)--(text1);
-\draw[<-] (0,-0.75)--(text1);
-
-\draw[<-] (4,0.8)--(text2.south);
-\draw[<-] (4,-0.75)--(text3.north);
-
-
-\end{tikzpicture}
-
-\vspace{0.5cm}
-Under some mild conditions, can write a {\em reduced} SDE 
-
-\begin{tikzpicture}
-
-\node[fill=orange!20](a) {$dx_i(t) = \hat{a_i}(x_1(t), \dots, x_m(t)) dt + dW_i(t), \: 1 \le i \le m $};
-
-\end{tikzpicture}
-
-Want to extract a parameterization of $x_1, \dots, x_m$ from {\em data}
-
-\end{frame}
 
 
 \begin{frame}{Data-Driven Reduction for Multiscale Data}
@@ -342,18 +354,18 @@ Construct a {\em metric} which captures relative time scales
 
 \end{frame}
 
-\begin{frame}{Mahalanobis Distance: A Good Metric}
-
-\centering
-The Mahalanobis distance is the Euclidean distance in a rescaled space where each term has unit variance
-
-\begin{block}{Mahalanobis distance, $\| \cdot \|_M$}
-$$\| \vec{x}(t_2) - \vec{x}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2$$
-where $\vec{z}$ obey the following SDEs
-$$dz_i(t) = b_i(\vec{z}(t)) dt + dW_i(t)$$
-\end{block}
-
-\end{frame}
+%\begin{frame}{Mahalanobis Distance: A Good Metric}
+%
+%\centering
+%The Mahalanobis distance is the Euclidean distance in a rescaled space where each term has unit variance
+%
+%\begin{block}{Mahalanobis distance, $\| \cdot \|_M$}
+%$$\| \vec{x}(t_2) - \vec{x}(t_1) \|^2_M = \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2$$
+%where $\vec{z}$ obey the following SDEs
+%$$dz_i(t) = b_i(\vec{z}(t)) dt + dW_i(t)$$
+%\end{block}
+%
+%\end{frame}
 
 \begin{frame}{Mahalanobis Distance: A Good Metric}
 
@@ -1040,12 +1052,6 @@ x_2(t)
 
 \end{itemize}
 
-\vspace{2cm}
-\centering
-\includegraphics[width=4cm]{csgf_logo}
-\hspace{2cm}
-\includegraphics[width=2cm]{nsf_logo}
-
 \end{frame}
 
 \section{Developmental Dynamics}
@@ -1158,6 +1164,25 @@ Can compute an {\em average developmental trajectory}
 
 \end{frame}
 
+\begin{frame}{Other data sets}
+
+\centering
+
+{\em Drosophila} live imaging
+\includegraphics[width=\textwidth]{drosophila_live_imaging_ordered}
+
+\vspace{0.1in}
+
+Zebrafish live imaging
+\includegraphics[width=\textwidth]{zebrafish_ordered}
+
+\vspace{0.1in}
+
+{\em Drosophila} wing discs (three-dimensional image stacks)
+\includegraphics[width=0.5\textwidth]{wing_disc_ordered}
+
+\end{frame}
+
 \begin{frame}{Conclusions}
 
 \end{frame}
@@ -1167,6 +1192,9 @@ Can compute an {\em average developmental trajectory}
 \begin{frame}{Detecting the dimensionality of data}
 
 In PCA, we look at the eigenvalues
+
+\includegraphics[width=2in]{PCA_data}
+\includegraphics[width=2in]{PCA_evals}
 
 In DMAPS, also look at eigenvalues -- but there is an issue
 
@@ -1179,6 +1207,10 @@ In DMAPS, also look at eigenvalues -- but there is an issue
 \includegraphics[width=1in]{strip_discrete3}
 \includegraphics[width=1in]{strip_discrete4}
 
+\includegraphics[width=1in]{strip_corr_12}
+\includegraphics[width=1in]{strip_corr_13}
+\includegraphics[width=1in]{strip_corr_14}
+
 \end{frame}
 
 \begin{frame}{Algorithm: local linear regression}
@@ -1189,24 +1221,102 @@ If fit is accurate, then $\phi_k$ is a {\em repeated eigendirection}
 
 If fit is inaccurate, then $\phi_k$ is a {\em unique eigendirection}
 
+\includegraphics[width=1in]{strip_corr_12_fitline}
+\includegraphics[width=1in]{strip_corr_13_fitline}
+\includegraphics[width=1in]{strip_corr_14_fitline}
+
+\includegraphics[width=1in]{strip_spectrum_L4}
+
 
 \end{frame}
 
 \begin{frame}{Example: swiss roll}
 
+\includegraphics[width=1in]{swissroll1}
+\includegraphics[width=1in]{swissroll1_color1}
+\includegraphics[width=1in]{swissroll1_color2}
+\includegraphics[width=1in]{swissroll1_evals}
+
+\includegraphics[width=1in]{swissroll2}
+\includegraphics[width=1in]{swissroll2_color1}
+\includegraphics[width=1in]{swissroll2_color2}
+\includegraphics[width=1in]{swissroll2_evals}
+
 \end{frame}
 
 \begin{frame}{Application: Chemotaxis}
 
+\begin{itemize}
+\item Cells on a line
+\item Randomly turn around at time
+\end{itemize}
+
+Important things: $p$ and $t$
+
+Relative importance changes
+
+\includegraphics[width=1in]{hist1_lambda_1}
+\includegraphics[width=1in]{hist2_lambda_1}
+\includegraphics[width=1in]{hist3_lambda_1}
+\includegraphics[width=1in]{hist4_lambda_1}
+
+\includegraphics[width=1in]{hist1_lambda_400}
+\includegraphics[width=1in]{hist2_lambda_400}
+\includegraphics[width=1in]{hist3_lambda_400}
+\includegraphics[width=1in]{hist4_lambda_400}
+
+
 \end{frame}
 
 \begin{frame}{Results}
+
+\includegraphics[width=1in]{EMD_withhist_p_1}
+\includegraphics[width=1in]{EMD_withhist_t_1}
+
+\includegraphics[width=1in]{EMD_withhist_p_400}
+\includegraphics[width=1in]{EMD_withhist_t_400}
+
+
+\end{frame}
+
+\begin{frame}{Results}
+
+\includegraphics[width=1in]{chemotaxis1_evals}
+\includegraphics[width=1in]{chemotaxis1_embed_good}
+
+\includegraphics[width=1in]{chemotaxis2_evals}
+\includegraphics[width=1in]{chemotaxis2_embed_good}
+
+
+\includegraphics[width=1in]{chemotaxis3_evals}
+\includegraphics[width=1in]{chemotaxis3_embed_good}
+
+
+\end{frame}
+
+
+\begin{frame}{Results}
+
+\includegraphics[width=2in]{tmax_lambda_transition}
 
 \end{frame}
 
 \begin{frame}{Conclusions}
 
 \end{frame}
+
+\begin{frame}{Thank You!}
+
+\begin{itemize}
+\item Yannis
+\item Committee
+\item Labmates
+\item Classmates
+\item Parents 
+\item Matt + dogs
+\end{itemize}
+\end{frame}
+
 
 
 \end{document}

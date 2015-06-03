@@ -99,7 +99,7 @@ Common technique: Principal Component Analysis \\
         
     \end{tikzpicture}
 
-	\newfootnote{Coifman {\em et al}, PNAS, 2005.}
+	\newfootnote{Coifman {\em et al}, {\em PNAS}, 2005.}
  
 \end{frame}
 
@@ -144,7 +144,7 @@ Common technique: Principal Component Analysis \\
 \begin{frame}{Diffusion Maps Implementation }
 
 	
-	\newfootnote{Coifman {\em et al}, PNAS, 2005}
+	\newfootnote{Coifman {\em et al}, {\em PNAS}, 2005.}
 	
 	\makebox[\textwidth][c]{
 
@@ -217,29 +217,19 @@ Many systems of engineering interest involve {\em dynamics}
 
 \newfootnote{{\tiny \texttt{ www.nercenergy.com/research/chemical\_networks.html}; Alter {\em et al}, {\em PNAS}, 2000; \texttt{www.comsol.com}.}}
 
-Advances in simulations and experiments means there is more data available for these systems
+{\footnotesize Increased data availability due to advances in simulations and experiments \par}
 
+\vfill 
+
+\centering
+{ \bf  Focus of thesis}
+
+Adapting {\em data mining algorithms} for the analysis of data from {\em dynamical systems}
 
 \end{frame}
 
-\begin{frame}{Focus of Thesis}
-
-Adapting {\bf data mining algorithms} for the analysis of data from {\bf dynamical systems}
 
 \section{Multiscale Data}
-
-\begin{itemize}
-
-\item Multiscale data
-
-\item Imaging data
-
-\item Detecting changes in dimensionality
-
-\end{itemize}
-
-\end{frame}
-
 
 \begin{frame}{Motivation}
 
@@ -401,6 +391,8 @@ z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 
 \end{tikzpicture}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 \begin{frame}{Mahalanobis Distance Collapses Fast Directions}
@@ -424,6 +416,8 @@ z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 
 \end{tikzpicture}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 
@@ -437,7 +431,7 @@ $$\vec{y} = \mathbf{f}(\vec{x})$$
 where $\mathbf{f}$ is some nonlinear measurement function
 \end{block}
 
-\newfootnote{Coifman and Singer, ACHA, 2009}
+\newfootnote{Coifman and Singer, {\em ACHA}, 2009}
 
 \vspace{0.5cm}
 Mahalanobis distance is invariant (to fourth order) \\to nonlinear transformations
@@ -502,67 +496,40 @@ within ball of radius $\sigma_{kernel}$
 
 \end{frame}
 
-\begin{frame}{Errors in Mahalanobis Distance}
-
-Want to write $\| \vec{z}(t_2) - \vec{z}(t_1) \|$ in terms of $\vec{y}(t_1), \vec{y}(t_2)$
-
-\vspace{0.5cm}
-
-By Taylor expansion,
+%\begin{frame}{Errors in Mahalanobis Distance}
 %
-\makebox[\textwidth][c]{
-\begin{tikzpicture}
-\node[fill=orange!20](a) { {\scriptsize $
-\begin{aligned}
-\| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 =&
-\overbrace{\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1))} \\
-&+ \underbrace{ E_M \left(\vec{y}(t_1), \vec{y}(t_2) \right)} + \underbrace{ \mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^6_2 \right)}
-\end{aligned}
-$}};
-
-\node[above=0.5cm of a, fill=yellow!20, align=center, text width=6cm](text1){{\small Mahalanobis distance\\$C$ is the covariance of $\vec{y}$ \\$\dagger$ denotes the pseudoinverse \par}};
-
-\node[below left=0.5cm and -6cm of a, fill=yellow!20, align=center, text width=6cm](text2){{\small $\mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^4_2 \right)$ error term\\ Involves second- and higher-order derivatives of $\mathbf{f}^{-1}$ \par}};
-
-\node[below right=0.5cm and -4cm of a, fill=yellow!20, align=center, text width=4cm](text3){{\small Higher-order error term}};
-
-
-\draw[->] (text1.south) -- (1.1,0.8);
-\draw[->] (text2.north) -- (-1.2,-0.8);
-\draw[->] (text3.north) -- (1.6,-0.8);
-
-\end{tikzpicture}
-}
-
-%\begin{equation}
-%\begin{aligned} 
-%E_M\left( \vec{y}(t_1), \vec{y}(t_2) \right)
-% =
-%\frac{1}{2} \sum_{i=1}^n \sum_{jkl=1}^{d} &
-%\left( g_{i, (j)} (\vec{y}(t_1)) g_{i, (k,l)} (\vec{y}(t_1)) -  g_{i, (j)} (\vec{y}(t_2)) g_{i, (k,l)} (\vec{y}(t_2)) \right) \\
-%& (\vec{y}_j(t_2) - \vec{y}_j(t_1))   (\vec{y}_k(t_2) - \vec{y}_k(t_1))(\vec{y}_l(t_2) - \vec{y}_l(t_1)) \\
-%+ \frac{1}{8} \sum_{i=1}^n \sum_{jklm=1}^d  &
-%\left( g_{i, (j,k)} (\vec{y}(t_1)) g_{i, (l,m)} (\vec{y}(t_1)) +  g_{i, (j,k)} (\vec{y}(t_2)) g_{i, (l,m)} (\vec{y}(t_2)) \right) \\
-%&(\vec{y}_j(t_2) - \vec{y}_j(t_1))  (\vec{y}_k(t_2) - \vec{y}_k(t_1))(\vec{y}_l(t_2) - \vec{y}_l(t_1)) (\vec{y}_m(t_2) - \vec{y}_m(t_1)) \\
-%+ \frac{1}{6} \sum_{i=1}^n \sum_{jklm=1}^d &
-%\left( g_{i, (j)} (\vec{y}(t_1)) g_{i, (k,l,m)} (\vec{y}(t_1)) +  g_{i, (j)} (\vec{y}(t_2)) g_{i, (k,l,m)} (\vec{y}(t_2)) \right) \\
-%& (\vec{y}_j(t_2) - \vec{y}_j(t_1))  (\vec{y}_k(t_2) - \vec{y}_k(t_1))(\vec{y}_l(t_2) - \vec{y}_l(t_1))(\vec{y}_m(t_2) - \vec{y}_m(t_1))
-%\end{aligned}
-%\end{equation}
+%Want to write $\| \vec{z}(t_2) - \vec{z}(t_1) \|$ in terms of $\vec{y}(t_1), \vec{y}(t_2)$
+%
+%\vspace{0.5cm}
+%
+%By Taylor expansion,
 %%
-%where
-%%
-%\begin{equation}
+%\makebox[\textwidth][c]{
+%\begin{tikzpicture}
+%\node[fill=orange!20](a) { {\scriptsize $
 %\begin{aligned}
-%g_{i,(j)} &= \sqrt{e_i} \frac{\partial g_i}{\partial y_j}
-%\\
-%g_{i,(j,k)} &= \sqrt{e_i}  \frac{\partial^2 g_i}{\partial y_j \partial y_k}
-%\\
-%g_{i,(j,k,l)} &= \sqrt{e_i}  \frac{\partial^3 g_i}{\partial y_j \partial y_k \partial y_l}
+%\| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 =&
+%\overbrace{\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1))} \\
+%&+ \underbrace{ E_M \left(\vec{y}(t_1), \vec{y}(t_2) \right)} + \underbrace{ \mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^6_2 \right)}
 %\end{aligned}
-%\end{equation}
-
-\end{frame}
+%$}};
+%
+%\node[above=0.5cm of a, fill=yellow!20, align=center, text width=6cm](text1){{\small Mahalanobis distance\\$C$ is the covariance of $\vec{y}$ \\$\dagger$ denotes the pseudoinverse \par}};
+%
+%\node[below left=0.5cm and -6cm of a, fill=yellow!20, align=center, text width=6cm](text2){{\small $\mathcal{O} \left(\| \vec{y}(t_2) - \vec{y}(t_1) \|^4_2 \right)$ error term\\ Involves second- and higher-order derivatives of $\mathbf{f}^{-1}$ \par}};
+%
+%\node[below right=0.5cm and -4cm of a, fill=yellow!20, align=center, text width=4cm](text3){{\small Higher-order error term}};
+%
+%
+%\draw[->] (text1.south) -- (1.1,0.8);
+%\draw[->] (text2.north) -- (-1.2,-0.8);
+%\draw[->] (text3.north) -- (1.6,-0.8);
+%
+%\end{tikzpicture}
+%}
+%
+%
+%\end{frame}
 
 \begin{frame}{Setting the Kernel Scale}
 
@@ -599,6 +566,8 @@ $}};
 
 \end{tikzpicture}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 \begin{frame}{Setting the Kernel Scale Empirically}
@@ -629,44 +598,40 @@ $}};
 
 \centering
 
-\end{frame}
-
-\begin{frame}{Calculating the Mahalanobis Distance}
-
-\begin{tikzpicture}
-
-\node[fill=orange!20]{{\scriptsize 
-$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M =
-\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1)) $ \par}};
-
-\node (a) at (1,-1)  {Need to estimate covariance};
-\draw[->] (a.north) -- (1.9,-0.2);
-\draw[->] (a.north) -- (0.25,-0.2);
-\end{tikzpicture}
-
-\vspace{0.5cm}
-
-\centering
-Estimate using simulation bursts of length $\delta t$
-%{\scriptsize
-%$$\hat{C}_{ij} (\vec{x}_t, \delta t)
-%=
-%{\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
-%- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)}$$
-%}
-
-\begin{tikzpicture}
-\node(a) {\includegraphics[width=0.3\textwidth]{mahalanobis_trajectories}};
-\node[right=0.25cm of a](b) {\includegraphics[width=0.3\textwidth]{mahalanobis_trajectories2}};
-\node[right=0.25cm of b](c) {\includegraphics[width=0.3\textwidth]{mahalanobis_points2}};
-
-\node[below right=0cm and -3.25cm of a, text width=0.3\textwidth, align=center](texta) {{\scriptsize Run many simulations of length $\delta t$ starting from initial point \par}};
-\node[below right=0cm and -3.25cm of b, text width=0.3\textwidth, align=center](textb) {{\scriptsize Collect cloud of final points \par}};
-\node[below right=0cm and -3.25cm of c, text width=0.3\textwidth, align=center](textc) {{\scriptsize Fit ellipse \par}};
-
-\end{tikzpicture}
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
 
 \end{frame}
+
+%\begin{frame}{Calculating the Mahalanobis Distance}
+%
+%\begin{tikzpicture}
+%
+%\node[fill=orange!20]{{\scriptsize 
+%$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M =
+%\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1)) $ \par}};
+%
+%\node (a) at (1,-1)  {Need to estimate covariance};
+%\draw[->] (a.north) -- (1.9,-0.2);
+%\draw[->] (a.north) -- (0.25,-0.2);
+%\end{tikzpicture}
+%
+%\vspace{0.5cm}
+%
+%\centering
+%Estimate using simulation bursts of length $\delta t$
+%
+%\begin{tikzpicture}
+%\node(a) {\includegraphics[width=0.3\textwidth]{mahalanobis_trajectories}};
+%\node[right=0.25cm of a](b) {\includegraphics[width=0.3\textwidth]{mahalanobis_trajectories2}};
+%\node[right=0.25cm of b](c) {\includegraphics[width=0.3\textwidth]{mahalanobis_points2}};
+%
+%\node[below right=0cm and -3.25cm of a, text width=0.3\textwidth, align=center](texta) {{\scriptsize Run many simulations of length $\delta t$ starting from initial point \par}};
+%\node[below right=0cm and -3.25cm of b, text width=0.3\textwidth, align=center](textb) {{\scriptsize Collect cloud of final points \par}};
+%\node[below right=0cm and -3.25cm of c, text width=0.3\textwidth, align=center](textc) {{\scriptsize Fit ellipse \par}};
+%
+%\end{tikzpicture}
+%
+%\end{frame}
 
 \begin{frame}{Covariance Estimation}
 
@@ -687,74 +652,42 @@ Choose $\delta t$ such that nonlinear effects are minimal
 
 
 
-\begin{frame}{Errors from covariance estimation}
-
-By It\={o}-Taylor expansion of $\mathbf{f}$ and $\vec{x}(t)$,
-
-\makebox[\textwidth][c]{
-\begin{tikzpicture}
-\node[fill=orange!20](a) { {\scriptsize $
-\begin{aligned}
-\hat{C}_{ij} (\vec{x}_t, \delta t)
-=&
-\overbrace{\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
-- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)}
-\\
-=& \underbrace{\sum_{k=1}^m \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}
-+ \frac{1}{\sqrt{\epsilon}} \sum_{k=m+1}^n  \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}}
-+ \underbrace{E_{C, ij} (\vec{x}(t), \delta t)} + \underbrace{\mathcal{O}(\delta t^{3/2})}
-\end{aligned}
-$}};
-
-\node[above=0.5cm of a, fill=yellow!20, align=center, text width=6cm](text1){{\small Empirically estimate local covariance \par}};
-
-\node[below left=0.5cm and -3cm of a, fill=yellow!20, align=center, text width=3cm](text2){{\small True covariance \par}};
-
-\node[below=0.5cm of a, fill=yellow!20, align=center, text width=4cm](text3){{\small $\mathcal{O} (\delta t)$ error term \\ Depends on drift, and second- and higher-order derivatives of $\mathbf{f}$  \par}};
-
-\node[below right=0.5cm and -3cm of a, fill=yellow!20, align=center, text width=3	cm](text4){{\small $\mathcal{O} (\delta t^{3/2})$ error term}};
-
-\draw[->] (text1.south) -- (0.6,1.1);
-\draw[->] (text2.north) -- (-0.9,-1.1);
-\draw[->] (text3.north) -- (3.5,-0.8);
-\draw[->] (text4.north) -- (5.25,-0.8);
-
-\end{tikzpicture}
-}
-
-%\begin{equation}\label{eq:estimated_cov}
+%\begin{frame}{Errors from covariance estimation}
+%
+%By It\={o}-Taylor expansion of $\mathbf{f}$ and $\vec{x}(t)$,
+%
+%\makebox[\textwidth][c]{
+%\begin{tikzpicture}
+%\node[fill=orange!20](a) { {\scriptsize $
 %\begin{aligned}
 %\hat{C}_{ij} (\vec{x}_t, \delta t)
 %=&
-%\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
-%- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)
+%\overbrace{\frac{1}{\delta t} \left( \mathbb{E} \left[ y_i (t+\delta t) y_j (t+ \delta t) \mid \vec{y}(t) \right]
+%- \mathbb{E} \left[ y_i (t+\delta t) \mid \vec{y}(t) \right] \mathbb{E} \left[ y_j (t+\delta t) \mid \vec{y}(t) \right] \right)}
 %\\
-%=& \sum_{k=1}^n \frac{1}{e_k} \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}
-%+ E_{C, ij} (\vec{x}(t), \delta t) + \mathcal{O}(\delta t^{3/2})
-%%=& \sum_{k=1}^n \frac{1}{e_k} \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)} \\
-%%&+ \frac{1}{\delta t} \sum_{k=1}^n f_{i,(k)}(\vec{x}(t)) \left( \mathbb{E} \left[ \int_t^{t+\delta t} \int_{s_1}^{t+\delta t} f_{j,(k,0)}(\vec{x}(s_2)) ds_2 ds_1 \right]
-%%+ \mathbb{E} \left[  \int_t^{t+\delta t} \int_t^{s_2} f_{j,(0,k)}(\vec{x}(s_1)) ds_1 ds_2\right] \right) \\
-%%&+  \frac{1}{\delta t} \sum_{k=1}^n f_{j,(k)}(\vec{x}(t)) \left( \mathbb{E} \left[ \int_t^{t+\delta t} \int_{s_1}^{t + \delta t} f_{i,(k,0)}(\vec{x}(s_2)) ds_2 ds_1 \right]
-%%+ \mathbb{E} \left[ \int_t^{t+\delta t} \int_t^{s_2} f_{i,(0,k)}(\vec{x}(s_1)) ds_1 ds_2 \right] \right) \\
-%%&+  \frac{1}{\delta t} \sum_{k,l=1}^n \mathbb{E} \left[ \int_t^{t+\delta t}\left( \int_t^{s_2} f_{i,(k,l)}(\vec{x}(s_1)) dW_{s_1, k}  \right) \left(  \int_t^{s_2} f_{j,(k,l)}(\vec{x}(s_1)) dW_{s_1, k} \right) ds_2 \right] \\
-%%&+ \mathcal{O} (\delta t^{3/2}),
+%=& \underbrace{\sum_{k=1}^m \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}
+%+ \frac{1}{\sqrt{\epsilon}} \sum_{k=m+1}^n  \left. \frac{\partial f_{i}}{\partial x_k} \right|_{\vec{x}(t)} \left. \frac{\partial f_{j}}{\partial x_k} \right|_{\vec{x}(t)}}
+%+ \underbrace{E_{C, ij} (\vec{x}(t), \delta t)} + \underbrace{\mathcal{O}(\delta t^{3/2})}
 %\end{aligned}
-%\end{equation}
-%%
-%where $E_C = \mathcal{O} (\delta t)$ is an error term, with
-%%
-%\begin{equation} \label{eq:cov_error}
-%\begin{aligned}
-%E_{C, ij} (\vec{x}(t), \delta t) =&
-% \frac{1}{\delta t} \sum_{k=1}^n f_{i,(k)}(\vec{x}(t)) \mathbb{E} \left[ \int_t^{t+\delta t} \left( \int_{s_2}^{t+\delta t} f_{j,(k,0)}(\vec{x}(s_1)) ds_1
-%+ \int_t^{s_2} f_{j,(0,k)}(\vec{x}(s_1)) ds_1 \right) ds_2 \right] \\
-%&+  \frac{1}{\delta t} \sum_{k=1}^n f_{j,(k)}(\vec{x}(t))  \mathbb{E} \left[ \int_t^{t+\delta t} \left( \int_{s_2}^{t + \delta t} f_{i,(k,0)}(\vec{x}(s_1)) ds_1
-%+  \int_t^{s_2} f_{i,(0,k)}(\vec{x}(s_1)) ds_1 \right) ds_2 \right] \\
-%&+  \frac{1}{\delta t} \sum_{k,l=1}^n \mathbb{E} \left[ \int_t^{t+\delta t}\left( \int_t^{s_2} f_{i,(k,l)}(\vec{x}(s_1)) dW_{s_1, k}  \right) \left(  \int_t^{s_2} f_{j,(k,l)}(\vec{x}(s_1)) dW_{s_1, k} \right) ds_2 \right]
-%\end{aligned}
-%\end{equation}
-
-\end{frame}
+%$}};
+%
+%\node[above=0.5cm of a, fill=yellow!20, align=center, text width=6cm](text1){{\small Empirically estimate local covariance \par}};
+%
+%\node[below left=0.5cm and -3cm of a, fill=yellow!20, align=center, text width=3cm](text2){{\small True covariance \par}};
+%
+%\node[below=0.5cm of a, fill=yellow!20, align=center, text width=4cm](text3){{\small $\mathcal{O} (\delta t)$ error term \\ Depends on drift, and second- and higher-order derivatives of $\mathbf{f}$  \par}};
+%
+%\node[below right=0.5cm and -3cm of a, fill=yellow!20, align=center, text width=3	cm](text4){{\small $\mathcal{O} (\delta t^{3/2})$ error term}};
+%
+%\draw[->] (text1.south) -- (0.6,1.1);
+%\draw[->] (text2.north) -- (-0.9,-1.1);
+%\draw[->] (text3.north) -- (3.5,-0.8);
+%\draw[->] (text4.north) -- (5.25,-0.8);
+%
+%\end{tikzpicture}
+%}
+%
+%\end{frame}
 
 \begin{frame}{Setting the Covariance Timescale}
 
@@ -785,6 +718,8 @@ $}};
 \end{tikzpicture}
 }
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 \begin{frame}{Setting the Covariance Timescale Empirically}
@@ -812,6 +747,8 @@ $}};
 
 \end{tikzpicture}
 }
+
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
 
 
 \end{frame}
@@ -852,6 +789,8 @@ $x_1$ is the slow variable, $x_2$ is the fast variable \newfootnote{$a=3$, $\eps
 
 \end{tikzpicture}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 \begin{frame}{Curved ``Half-Moon'' Data}
@@ -876,6 +815,8 @@ x_2(t)
 \centering
 \includegraphics[width=0.5\textwidth]{data_init_nonlinear}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 
@@ -893,6 +834,8 @@ x_2(t)
 
 \end{tikzpicture}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 \begin{frame}{Reduction of Nonlinear Data}
@@ -908,6 +851,8 @@ x_2(t)
 \draw[->, red] (1.85, -2.4) -- (1.6,-2.4);
 
 \end{tikzpicture}
+
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
 
 \end{frame}
 
@@ -925,6 +870,8 @@ x_2(t)
 
 \end{tikzpicture}
 
+\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+
 \end{frame}
 
 
@@ -940,43 +887,45 @@ x_2(t)
     temperature being maintained at 300~K with a Langevin thermostat;
     hydrogen bond lengths are fixed using the SHAKE algorithm \par}
     
-    \begin{minipage}[t]{0.5\textwidth}
+    \begin{minipage}[b]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{FES}\\
-        {\small The free energy surface (FES) of Ala2 has three distinct wells}
+        \includegraphics[width=0.9\textwidth]{FES}\\
+        {\footnotesize The free energy surface (FES) of Ala2 has three distinct wells \par}
     \end{minipage}
     \hfill
-    \begin{minipage}[t]{0.4\textwidth}
+    \begin{minipage}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=0.6\textwidth]{molecule2}\\
-        {\small The FES is well parameterized by the two dihedral angles $\phi$ and $\psi$}
+        {\footnotesize The FES is well parameterized by the two dihedral angles $\phi$ and $\psi$ \par}
     \end{minipage}
 
-    \vspace{0.1in}
+    \vspace{0.05in}
     We collect data around well B in the free energy surface
+
+\newfootnote{Dsilva {\em et al}, {\em JCP}, 2013.}
 
 \end{frame}
 
 \begin{frame}{Diffusion Maps Embeddings}
 
-	{\small
+	{\footnotesize
 	Mahalanobis distance factors out nonlinear measurement functions \\
 	Different measurements yield consistent embeddings
 	\par}
 	
     \begin{minipage}[t]{0.45\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{molecule_all}\\
+        \includegraphics[width=0.45\textwidth, trim=0in 0.2in 0in 0.2in, clip]{molecule_all}\\
         {\scriptsize In one data set, we observe all the atoms in the molecule \par}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth, trim=0in 0.2in 0in 0.2in, clip]{molecule_odd}\\
+        \includegraphics[width=0.45\textwidth, trim=0in 0.2in 0in 0.2in, clip]{molecule_odd}\\
         {\scriptsize In one data set, we observe {\em only} the odd atoms in the molecule \par}
     \end{minipage}
 
-    \vspace{0.2in}
+    \vspace{0.05in}
 
     \centering
     {\scriptsize 
@@ -998,14 +947,18 @@ x_2(t)
         (c)
     \end{minipage}}
     
-    \vspace{0.1in}
-        {\small We obtain (visually) consistent embeddings for the two data sets }
+    \vspace{0.05in}
+        {\footnotesize We obtain (visually) consistent embeddings for the two data sets }
 
     {\em \scriptsize The 3-dimensional NIV embeddings for Ala2 colored by (a) the y-coordinate of the first atom, (b) the dihedral angle $\phi$, and (c) the dihedral angle $\psi$. \par}
+
+\newfootnote{Dsilva {\em et al}, {\em JCP}, 2013.}
 
 \end{frame}
 
 \begin{frame}{Reconstructions of Molecular Configurations}
+	
+	\vspace{-0.1in}
 	
 		\makebox[\textwidth][c]{
 
@@ -1024,9 +977,9 @@ x_2(t)
 	\draw[->] (c.east) -- (d.west) node[above, midway, text width=3.5cm, align=center] {{\scriptsize Calculate embedding of odd atoms \par}};
 	\draw[->] (d.east) -- (e.west) node[above, midway, text width=3.5cm, align=center] {{\scriptsize Calculate locations of all atoms using $h$\par}};
 
-	\node[below=0cm of d](molec1){\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule300_balls}};
-	\node[right=0cm of molec1](molec2){\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule600_balls}};
-	\node[left=0cm of molec1](molec3){\includegraphics[width=0.25\textwidth,trim=0in 5in 0in 0in, clip]{molecule900_balls}};
+	\node[below=0cm of d](molec1){\includegraphics[width=0.25\textwidth,trim=0in 7in 0in 7in, clip]{molecule300_balls}};
+	\node[right=0cm of molec1](molec2){\includegraphics[width=0.25\textwidth,trim=0in 7in 0in 7in, clip]{molecule600_balls}};
+	\node[left=0cm of molec1](molec3){\includegraphics[width=0.25\textwidth,trim=0in 7in 0in 7in, clip]{molecule900_balls}};
 	
 	\node[below=-0.2cm of molec1, align=center, text width=0.75\textwidth](molec_text){{\scriptsize \em True structure (black) and reconstructed structure (red) for three different data points \par}};
 	
@@ -1040,6 +993,8 @@ x_2(t)
 	\end{tikzpicture}
 	}
 
+\newfootnote{Dsilva {\em et al}, {\em JCP}, 2013.}
+
 \end{frame}
 
 \begin{frame}{Conclusions}
@@ -1048,9 +1003,297 @@ x_2(t)
 \item Multiscale stochastic data arises in a variety of contexts
 \item Adapt data mining techniques to incorporate time scales
 \item Extract slow variables from nonlinear data
-\item Future work: using extracted slow variables \\to write reduced models
-
 \end{itemize}
+
+\vfill
+
+\includegraphics[height=1in]{data_nonlinear_NIV_dt1_kernel1}
+\hfill
+\includegraphics[height=1in]{C_dt_analytical_nonlinear2}
+\hfill
+\includegraphics[height=1in]{molecule2}
+
+\end{frame}
+\section{Detecting Dimensionality}
+
+\begin{frame}{Detecting the Dimensionality of Data}
+
+\centering
+In PCA, we look at the eigenvalues
+
+\includegraphics[width=1in]{PCA_data}
+\includegraphics[width=1in]{PCA_evals}
+
+\vfill 
+
+In diffusion maps, we would also like to use the eigenvalues to detect the approximate dimensionality of the data. 
+
+\includegraphics[width=1in]{strip_data_nocolor}
+\includegraphics[width=1in]{strip_evals_nocolor}
+
+
+\end{frame}
+
+\begin{frame}{Repeated Eigendirections}
+
+However, in diffusion maps, not all eigenvectors parameterize unique eigendirections in the data
+
+%\includegraphics[width=1in]{strip_evals_nocolor}
+
+\includegraphics[height=0.7in]{strip_discrete1}
+\includegraphics[height=0.7in]{strip_discrete2}
+\includegraphics[height=0.7in]{strip_discrete3}
+\includegraphics[height=0.7in]{strip_discrete4}
+
+\vspace{-0.1in}
+{\em \scriptsize Data sampled from a strip, colored by the first four diffusion maps eigenvectors}
+
+\vspace{0.1in}
+
+\hspace{1.15in}
+\includegraphics[height=0.7in]{strip_corr_12}
+\hspace{0.3in}
+\includegraphics[height=0.7in]{strip_corr_13}
+\hspace{0.3in}
+\includegraphics[height=0.7in]{strip_corr_14}
+
+{\em \scriptsize Diffusion maps eigenvectors 2-4 plotted as a function of the first eigenvector. The second and third eigenvectors are nonlinear functions of the first. \par}
+
+\vspace{0.1in}
+
+We need an automated way to detect these {\em repeated eigendirections}.
+
+\end{frame}
+
+\begin{frame}{Algorithm: Local Linear Regression}
+
+For each eigenvector $\phi_k$, fit a function $\phi_k = f(\phi_1, \dots, \phi_{k-1})$. 
+%
+We use local linear regression to fit the function $f$. 
+
+\vspace{0.1in}
+
+\begin{minipage}{0.45\textwidth}
+{\small If fit is accurate, then $\phi_k$ is a {\em repeated eigendirection} \par}
+
+\centering
+\includegraphics[width=0.7in]{strip_corr_12_fitline}
+\includegraphics[width=0.7in]{strip_corr_13_fitline}
+
+\end{minipage}
+%
+\hfill 
+%
+\begin{minipage}{0.45\textwidth}
+{\small If fit is inaccurate, then $\phi_k$ is a {\em unique eigendirection} \par}
+
+\centering
+\includegraphics[width=0.7in]{strip_corr_14_fitline}
+
+\end{minipage}
+
+\vspace{0.1in}
+
+\includegraphics[width=1.5in]{strip_evals_color}
+\hfill
+\begin{minipage}[b]{2.5in}
+{\scriptsize 
+Diffusion maps eigenvalues, colored by the leave-one-out cross-validation error $r_k$ from the local linear fit. A large value of $r_k$ indicates a unique eigendirection, and a small value of $r_k$ indicates a repeated eigendirection. \par}
+\vspace{0.2in}
+\end{minipage}
+
+\newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
+
+\end{frame}
+
+\begin{frame}{Example: Swiss Roll}
+
+\vspace{-0.1in}
+
+\def\figheight{0.75in}
+
+\begin{tikzpicture}
+
+\node (data1) {\includegraphics[height=\figheight]{swissroll1}};
+\node [right=of data1] (evals1) {\includegraphics[height=\figheight]{swissroll1_evals}};
+\node [right=of evals1] (datacolored1) {\includegraphics[height=0.5in]{swissroll1_color1} \includegraphics[height=0.5in]{swissroll1_color2}};
+\draw[->] (data1) -- (evals1);
+\draw[->] (evals1) -- (datacolored1);
+\node[below=0in of data1, text width=1in] {\scriptsize Swiss roll data set, height=40 \par};
+\node[below=0in of evals1] {\scriptsize Diffusion maps eigenvalues};
+\node[below=0in of datacolored1, text width=1in] {\scriptsize Data colored by identified diffusion maps eigenvectors \par};
+
+
+
+\node [below=of data1] (data2) {\includegraphics[height=\figheight]{swissroll2}};
+\node [right=of data2] (evals2) {\includegraphics[height=\figheight]{swissroll2_evals}};
+\node [right=of evals2] (datacolored2) {\includegraphics[height=0.5in]{swissroll2_color1} \includegraphics[height=0.5in]{swissroll2_color2}};
+\draw[->] (data2) -- (evals2);
+\draw[->] (evals2) -- (datacolored2);
+\node[below=0in of data2, text width=1in] {\scriptsize Swiss roll data set, height=20 \par};
+\node[below=0in of evals2] {\scriptsize Diffusion maps eigenvalues};
+\node[below=0in of datacolored2, text width=1in] {\scriptsize Data colored by identified diffusion maps eigenvectors \par};
+
+\end{tikzpicture}
+
+{\footnotesize
+In both cases, the identified eigenvectors are one-to-one with the arglength along the spiral and the height of the Swiss roll. 
+\par}
+
+\newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
+
+\end{frame}
+
+\begin{frame}{Application: Chemotaxis}
+
+{\small
+Cellular chemotaxis: biological cells exhibit coherent macroscopic dynamics regulated by extracellular sensed signals to accomplish tasks such as finding food or navigating away from toxins \footnote{Othmer and Hillen, SIAM Journal on Applied Mathematics, 2000.}
+\par}
+
+\vspace{0.1in}
+
+\begin{minipage}{0.55\textwidth}
+
+{\footnotesize 
+Mathematical model:
+\par}
+
+{\scriptsize
+\begin{itemize}
+\item $N=1000$ cells on a line
+\item Each cell $i$ has a position $x_i(t)$ and velocity $v_i(t)$
+\item $v_i(t) = \pm s$, where $s$ is a fixed speed
+\item Cells are initialized such that \\
+{\centering 
+$x_i(0) = 0$ \\
+$\mathbb{P} \{ v_i(0) = +s \} = p$\\ }
+where $0 < p < 1$ is the probability of a cell initially moving to the right
+\item Velocity of each cell randomly switches between $\pm s$ following an (independent) Poisson process with rate $\lambda$
+\end{itemize}
+\par}
+
+\end{minipage}
+%
+\hfill
+%
+\begin{minipage}{0.42\textwidth}
+
+
+{\scriptsize Small $\lambda$ for $p=0.1, 0.9$}
+
+\includegraphics[width=0.45\textwidth]{chemotaxis_hist_colored_small_lambda1}
+\includegraphics[width=0.45\textwidth]{chemotaxis_hist_colored_small_lambda2}
+
+{\scriptsize Large $\lambda$ for $p=0.1, 0.9$}
+
+\includegraphics[width=0.45\textwidth]{chemotaxis_hist_colored_large_lambda1}
+\includegraphics[width=0.45\textwidth]{chemotaxis_hist_colored_large_lambda2}
+
+{\footnotesize
+Important parameters: $p$ and $t$
+
+Relative importance changes
+\par}
+
+\end{minipage}
+
+
+\end{frame}
+
+\begin{frame}{Diffusion maps embeddings of data}
+
+{\scriptsize 
+Distance used is the Earth Mover's Distance between histograms of the particle positions \footnote{Rubner, Tomasi, and Guibas, {\em International Journal of Computer Vision}, 2000.}
+\par }
+
+\centering
+
+\def\figwidth{1.1in}
+
+\begin{tikzpicture}
+
+\node (a) {\includegraphics[width=\figwidth]{EMD_withhist_p_1}};
+\node [right=0in of a] (b) {\includegraphics[width=\figwidth]{EMD_withhist_t_1}};
+
+\node [below=0in of a] (c) {\includegraphics[width=\figwidth]{EMD_withhist_p_400}};
+\node [right=0in of c] (d) {\includegraphics[width=\figwidth]{EMD_withhist_t_400}};
+
+\node [left=0in of a] {\scriptsize $\lambda=1$};
+\node [left=0in of c] {\scriptsize $\lambda=400$};
+
+\node [above=0in of a] {\scriptsize Colored by $p$};
+\node [above=0in of b] {\scriptsize Colored by $t$};
+
+%\node [right=0.1in of b,text width=2in] {\footnotesize Embeddings recover $p$ and $t$ \newline Relative importance changes \par};
+
+\end{tikzpicture}
+
+{\footnotesize Embeddings recover $p$ and $t$ \\ Relative importance changes \par}
+
+\newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
+
+\end{frame}
+
+\begin{frame}{Find Unique Eigendirections}
+
+As we increase $\lambda$, the eigenvectors which correspond to $p$ and $t$ move farther down in the spectrum
+
+\vfill
+
+\begin{tikzpicture}
+
+\node(a) {\includegraphics[height=0.9in]{chemotaxis1_evals}};
+
+\node[right=0in of a] (b) {\includegraphics[height=0.9in]{chemotaxis2_evals}};
+\node[right=0in of b] (c) {\includegraphics[height=0.9in]{chemotaxis3_evals}};
+
+\node[below=0in of a] (d) {\includegraphics[height=0.9in]{chemotaxis1_embed_good}};
+\node[right=0in of d] (e) {\includegraphics[height=0.9in]{chemotaxis2_embed_good}};
+\node[right=0in of e] (f) {\includegraphics[height=0.9in]{chemotaxis3_embed_good}};
+
+\node [left=-0.1in of a, text width=0.75in] {\scriptsize Diffusion maps eigenvalue spectra \par};
+\node [left=-0.1in of d, text width=0.75in] {\scriptsize Diffusion maps embeddings \par};
+
+\node [above=0in of a] {\scriptsize $\lambda=100$};
+\node [above=0in of b] {\scriptsize $\lambda=1600$};
+\node [above=0in of c] {\scriptsize $\lambda=6400$};
+
+\end{tikzpicture}
+
+\newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
+
+\end{frame}
+
+
+\begin{frame}{Detecting Changes in Dimensionality}
+
+\begin{itemize}
+\item Look at the ratio of the two eigenvalues corresponding to unique eigendirections
+\item If this ratio is small, data are effectively one-dimensional
+\item If this ratio is large, data are effectively two-dimensional
+\end{itemize}
+
+\centering
+\includegraphics[width=2.5in]{tmax_lambda_transition}
+
+\newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
+
+\end{frame}
+
+\begin{frame}{Conclusions}
+
+\begin{itemize}
+\item Automated method to find the {\em unique eigendirections} in diffusion maps
+\item Allows for the detection of changes in dimensionality
+\end{itemize}
+
+\vfill
+
+\includegraphics[height=1in]{strip_corr_12_fitline}
+\hfill
+\includegraphics[height=1in]{strip_evals_color}
+\hfill
+\includegraphics[height=1in]{tmax_lambda_transition}
 
 \end{frame}
 
@@ -1108,15 +1351,17 @@ We will look at optical sections \\ perpendicular to the long axis of the embryo
 \begin{center}
 \includegraphics[width=4in]{drosophila_imaging_setup}
 
-\vspace{0.2in}
+\vspace{0.1in}
 
+{\footnotesize 
 We obtain images at a fixed depth (90~$\mu m$) \\from the tip of the embryo.
 
 Each embryo is in a different rotational orientation.
-
+ \par}
+ 
 \end{center}
 
-\newfootnote{Chung {\em et al}, {\em Nature Methods}, 2011}
+\newfootnote{Chung {\em et al}, {\em Nature Methods}, 2011.}
 
 \end{frame}
 
@@ -1142,7 +1387,7 @@ Each embryo is in a different rotational orientation.
 
 \centering
 Simultaneously register and order using vector diffusion maps 
-\newfootnote{Singer and Wu, Commun Pure Appl Math, 2012}
+\newfootnote{Singer and Wu, {\em Commun Pure Appl Math}, 2012.}
 
 \includegraphics[width=0.6\textwidth]{synchronization_schematic}
 
@@ -1162,6 +1407,8 @@ with manual ordering by an expert
 Can compute an {\em average developmental trajectory}
 \includegraphics[width=\textwidth]{drosophila_data_averaged}
 
+\newfootnote{Dsilva {\em et al}, {\em Current Biology}, 2015.}
+
 \end{frame}
 
 \begin{frame}{Other data sets}
@@ -1169,152 +1416,89 @@ Can compute an {\em average developmental trajectory}
 \centering
 
 {\em Drosophila} live imaging
-\includegraphics[width=\textwidth]{drosophila_live_imaging_ordered}
+\includegraphics[width=0.9\textwidth]{drosophila_live_imaging_ordered}
 
-\vspace{0.1in}
+\vspace{0.07in}
 
 Zebrafish live imaging
-\includegraphics[width=\textwidth]{zebrafish_ordered}
+\includegraphics[width=0.9\textwidth]{zebrafish_ordered}
 
-\vspace{0.1in}
+\vspace{0.07in}
 
 {\em Drosophila} wing discs (three-dimensional image stacks)
-\includegraphics[width=0.5\textwidth]{wing_disc_ordered}
+\includegraphics[width=0.45\textwidth]{wing_disc_ordered}
+
+\newfootnote{Dsilva {\em et al}, {\em Current Biology}, 2015.}
 
 \end{frame}
 
 \begin{frame}{Conclusions}
-
-\end{frame}
-
-\section{Detecting the true dimensionality}
-
-\begin{frame}{Detecting the dimensionality of data}
-
-In PCA, we look at the eigenvalues
-
-\includegraphics[width=2in]{PCA_data}
-\includegraphics[width=2in]{PCA_evals}
-
-In DMAPS, also look at eigenvalues -- but there is an issue
-
-\end{frame}
-
-\begin{frame}{Repeated eigendirections}
-
-\includegraphics[width=1in]{strip_discrete1}
-\includegraphics[width=1in]{strip_discrete2}
-\includegraphics[width=1in]{strip_discrete3}
-\includegraphics[width=1in]{strip_discrete4}
-
-\includegraphics[width=1in]{strip_corr_12}
-\includegraphics[width=1in]{strip_corr_13}
-\includegraphics[width=1in]{strip_corr_14}
-
-\end{frame}
-
-\begin{frame}{Algorithm: local linear regression}
-
-Fit a function $\phi_k = f(\phi_1, \dots, \phi_{k-1})$. 
-
-If fit is accurate, then $\phi_k$ is a {\em repeated eigendirection}
-
-If fit is inaccurate, then $\phi_k$ is a {\em unique eigendirection}
-
-\includegraphics[width=1in]{strip_corr_12_fitline}
-\includegraphics[width=1in]{strip_corr_13_fitline}
-\includegraphics[width=1in]{strip_corr_14_fitline}
-
-\includegraphics[width=1in]{strip_spectrum_L4}
-
-
-\end{frame}
-
-\begin{frame}{Example: swiss roll}
-
-\includegraphics[width=1in]{swissroll1}
-\includegraphics[width=1in]{swissroll1_color1}
-\includegraphics[width=1in]{swissroll1_color2}
-\includegraphics[width=1in]{swissroll1_evals}
-
-\includegraphics[width=1in]{swissroll2}
-\includegraphics[width=1in]{swissroll2_color1}
-\includegraphics[width=1in]{swissroll2_color2}
-\includegraphics[width=1in]{swissroll2_evals}
-
-\end{frame}
-
-\begin{frame}{Application: Chemotaxis}
 
 \begin{itemize}
-\item Cells on a line
-\item Randomly turn around at time
+\item Can automatically register and order complex imaging data sets
+\item Can extract representative developmental trajectories to uncover stereotypic dynamics
 \end{itemize}
 
-Important things: $p$ and $t$
+\vfill
 
-Relative importance changes
-
-\includegraphics[width=1in]{hist1_lambda_1}
-\includegraphics[width=1in]{hist2_lambda_1}
-\includegraphics[width=1in]{hist3_lambda_1}
-\includegraphics[width=1in]{hist4_lambda_1}
-
-\includegraphics[width=1in]{hist1_lambda_400}
-\includegraphics[width=1in]{hist2_lambda_400}
-\includegraphics[width=1in]{hist3_lambda_400}
-\includegraphics[width=1in]{hist4_lambda_400}
-
+\includegraphics[height=1.25in]{synchronization_schematic}
+\hfill
+\includegraphics[height=1.25in]{drosophila_data_ordered}
 
 \end{frame}
 
-\begin{frame}{Results}
-
-\includegraphics[width=1in]{EMD_withhist_p_1}
-\includegraphics[width=1in]{EMD_withhist_t_1}
-
-\includegraphics[width=1in]{EMD_withhist_p_400}
-\includegraphics[width=1in]{EMD_withhist_t_400}
-
-
-\end{frame}
-
-\begin{frame}{Results}
-
-\includegraphics[width=1in]{chemotaxis1_evals}
-\includegraphics[width=1in]{chemotaxis1_embed_good}
-
-\includegraphics[width=1in]{chemotaxis2_evals}
-\includegraphics[width=1in]{chemotaxis2_embed_good}
-
-
-\includegraphics[width=1in]{chemotaxis3_evals}
-\includegraphics[width=1in]{chemotaxis3_embed_good}
-
-
-\end{frame}
-
-
-\begin{frame}{Results}
-
-\includegraphics[width=2in]{tmax_lambda_transition}
-
-\end{frame}
-
-\begin{frame}{Conclusions}
-
-\end{frame}
+\section{}
 
 \begin{frame}{Thank You!}
 
+\begin{minipage}{0.45\textwidth}
+
 \begin{itemize}
-\item Yannis
-\item Committee
-\item Labmates
-\item Classmates
-\item Parents 
-\item Matt + dogs
+\item Advisor: Ioannis Kevrekidis
+\item Committee members
+\begin{itemize}
+	\item Pablo Debenedetti
+	\item Athanassios Panagiotopoulos
+	\item Stanislav Shvartsman
 \end{itemize}
+\item Funding
+\begin{itemize}
+	\item DOE Computational Science Graduate Fellowship
+	\item NSF Graduate Research Fellowship
+\end{itemize}
+\item Kevrekidis lab
+\end{itemize} 
+\end{minipage}
+%
+\begin{minipage}{2in}
+
+\centering
+
+\includegraphics[width=2in]{classmates}
+
+\includegraphics[height=0.75in, angle=-90]{family}
+%
+\hfill
+%
+\begin{minipage}[t]{1.25in}
+\vspace{0in}
+\includegraphics[width=0.5\textwidth]{julia}
+\includegraphics[width=0.5\textwidth]{nicholas}\\
+\includegraphics[width=\textwidth]{matthew}
+\end{minipage}
+\end{minipage}
+
+
+%\begin{itemize}
+%\item Yannis
+%\item Committee
+%\item Labmates
+%\item Classmates
+%\item Parents 
+%\item Matt + dogs
+%\end{itemize}
+
+
 \end{frame}
 
 

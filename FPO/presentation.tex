@@ -17,14 +17,14 @@
 \setbeamerfont{footnote}{size=\tiny}
 \setbeamertemplate{footline}{%
   \raisebox{5pt}{\makebox[\paperwidth]{\hfill\makebox[10pt]{\scriptsize \color{gray} \insertframenumber}}}}
-  
+
 \hyphenpenalty=10000
 
 \newcommand{\newfootnote}[1]{\let\thefootnote\relax\footnotetext{#1}}
-  
+
 \title{Manifold Learning for Dynamical Systems}
 
-\author{Carmeline J. Dsilva \\ Adisor: Ioannis Kevrekidis}
+\author{Carmeline J. Dsilva \\ Advisor: Ioannis Kevrekidis}
 \date{6 June 2015}
 
 \begin{document}
@@ -58,6 +58,8 @@
 
 \end{tikzpicture}
 
+\vfill
+
 \centering
 \includegraphics[width=3in]{dilbert}
 %
@@ -84,7 +86,7 @@ Common technique: Principal Component Analysis \\
 \end{frame}
 
 \begin{frame}{Diffusion Maps for Nonlinear Data Reduction}
-    
+
     \centering
     \begin{tikzpicture}
         \node (fig1) {\includegraphics[width=0.4\textwidth]{dmaps_spiral_black_plane_large.jpg}};
@@ -92,15 +94,15 @@ Common technique: Principal Component Analysis \\
         \draw[red,->] (-0.15,-1.2) -- (-1, 0.4);
         \node[right of=fig1, node distance=0.5\textwidth] (fig2) {\includegraphics[width=0.4\textwidth]{dmaps_spiral_color_plane_large.jpg}};
         \draw [->] (fig1.east) -- (fig2.west);
-        
+
         \node[below=0cm of fig1, text width=0.4\textwidth, align=center]{Data on a spiral \\ {\scriptsize PCA will find \\two-dimensional plane \par}};
-        
+
         \node[below=0cm of fig2, text width=0.5\textwidth, align=center]{Data colored by first diffusion maps coordinate};
-        
+
     \end{tikzpicture}
 
 	\newfootnote{Coifman {\em et al}, {\em PNAS}, 2005.}
- 
+
 \end{frame}
 
 \begin{frame}{Eigenfunctions to Parameterize a Manifold}
@@ -163,11 +165,11 @@ Common technique: Principal Component Analysis \\
         $W_{ij} = \exp \left( -\frac{d^2 (y_i, y_j)}{\sigma_{kernel}^2}  \right)  $ \\
         \vspace{0.5cm}
 	 Diagonal matrix $D$: \\
-	 $D_{ii} = \sum_{j=1}^{n} W_{ij}$\\ 
+	 $D_{ii} = \sum_{j=1}^{n} W_{ij}$\\
 	 \vspace{0.5cm}
 	 Matrix $A =  D^{-1} W$ \par}};
 	
-	\node[fill=orange!20, text width=3cm, right=of matrix, align=center](eigenvectors){{\scriptsize Compute {\bf eigenvectors} $\phi_0, \phi_1, \dots, \phi_{n-1}$ and {\bf eigenvalues} $\lambda_0, \lambda_1, \dots, \lambda_{n-1}$ of $A$ \par}};
+	\node[fill=orange!20, text width=3cm, right=of matrix, align=center](eigenvectors){{\scriptsize Compute {\bf eigenvectors} $\phi_0, \phi_1, \dots, \phi_{n-1}$ and {\bf eigenvalues} $\mu_0, \mu_1, \dots, \mu_{n-1}$ of $A$ \par}};
 
 		\node[fill=yellow!20, text width=4cm, above=1.5cm of matrix, align=center](distance){{\scriptsize $d(y_i, y_j)$ is a distance metric \\
 		$\sigma_{kernel}$: characteristic distance \par}};
@@ -199,18 +201,19 @@ Common technique: Principal Component Analysis \\
 
 \begin{frame}{Data and Dynamics}
 
+\centering
+
 Many systems of engineering interest involve {\em dynamics}
 
 \begin{tikzpicture}
 
-\node(stockmarket){\includegraphics[width=1in]{comsol}};
-\node[below=0cm of stockmarket, align=center, text width=1.2in]{{\scriptsize Fluid flow \par} };
+\node(comsol){\includegraphics[width=1in]{comsol}};
+\node[below=0cm of comsol, align=center, text width=1.2in]{{\scriptsize Fluid flow \par} };
 
-\node[left=of stockmarket](proteins){\includegraphics[width=1in]{eigengenes}};
-\node[below=0cm of proteins, align=center, text width=1.2in]{{\scriptsize Gene expression \par} };
-%\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
+\node[right=of comsol](genes){\includegraphics[width=1in]{eigengenes}};
+\node[below=0cm of genes, align=center, text width=1.2in]{{\scriptsize Gene expression \par} };
 
-\node[left=of proteins](rxnnetwork){\includegraphics[width=1in]{rxn_networks}};
+\node[left=of comsol](rxnnetwork){\includegraphics[width=1in]{rxn_networks}};
 \node[below=0cm of rxnnetwork, align=center, text width=1in]{{\scriptsize Chemical reaction networks \par} };
 
 \end{tikzpicture}
@@ -219,48 +222,89 @@ Many systems of engineering interest involve {\em dynamics}
 
 {\footnotesize Increased data availability due to advances in simulations and experiments \par}
 
-\vfill 
+\vfill
 
-\centering
-{ \bf  Focus of thesis}
 
-Adapting {\em data mining algorithms} for the analysis of data from {\em dynamical systems}
 
 \end{frame}
 
-
-\section{Multiscale Data}
-
-\begin{frame}{Motivation}
+\begin{frame}{Focus of Thesis}
 
 \centering
-Multiscale time series are ubiquitous
+
+%{ \bf  Focus of thesis}
+
+{\small Adapt {\em data mining algorithms} for the analysis of {\em dynamical systems} \par}
+
+\begin{itemize}
+\item Reduction of multiscale data \\
+{\scriptsize \em Joint work with Ronen Talmon and Ronald Coifman \par}
+
+\begin{tikzpicture}
+\node(a) {\includegraphics[width=0.2\textwidth]{data_init}};
+\node[right=of a](b) {\includegraphics[width=0.2\textwidth]{data_rescaled}};
+
+\draw[->] (a) -- (b);
+\end{tikzpicture}
+
+\item Detecting the underlying dimensionality of a data set \\
+{\scriptsize \em Joint work with Ronen Talmon and Ronald Coifman \par}
+
 
 \begin{tikzpicture}
 
-\node(stockmarket){\includegraphics[width=1in]{stockmarket}};
-\node[below=0cm of stockmarket, align=center, text width=1.2in]{{\scriptsize Financial data \par} };
+\node(a) {\includegraphics[height=0.6in]{chemotaxis1_evals}};
+\node[right=0in of a] (b) {\includegraphics[height=0.6in]{chemotaxis2_evals}};
+\node[right=0in of b] (c) {\includegraphics[height=0.6in]{chemotaxis3_evals}};
 
-\node[left=of stockmarket](proteins){\includegraphics[width=1in]{protein_CG}};
-\node[below=0cm of proteins, align=center, text width=1.2in]{{\scriptsize Molecular simulations \par} };
-%\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
-
-\node[left=of proteins](rxnnetwork){\includegraphics[width=1in]{rxn_networks}};
-\node[below=0cm of rxnnetwork, align=center, text width=1in]{{\scriptsize Chemical reaction networks \par} };
+%\node [above=0in of a] {\scriptsize $\lambda=100$};
+%\node [above=0in of b] {\scriptsize $\lambda=1600$};
+%\node [above=0in of c] {\scriptsize $\lambda=6400$};
 
 \end{tikzpicture}
 
-\newfootnote{{\tiny \texttt{ www.nercenergy.com/research/chemical\_networks.html; www.ks.uiuc.edu/Research/CG; www.wired.co.uk/news/archive/2013-05/8/wikipedia-views-stock-market }}}
+\item Reconstructing developmental dynamics \\
+{\scriptsize \em Joint work with Bomyi Lim and Stanislav Shvartsman \par}
 
-\vspace{0.5cm}
 
-\centering
-Want to extract the {\em slow variables} \\that govern the system dynamics
+\includegraphics[width=0.8\textwidth]{drosophila_data_averaged}
+
+\end{itemize}
 
 \end{frame}
 
+\section{Multiscale Data}
 
-\begin{frame}{How to Reduce?}
+%\begin{frame}{Motivation}
+%
+%\centering
+%Multiscale time series are ubiquitous
+%
+%\begin{tikzpicture}
+%
+%\node(stockmarket){\includegraphics[width=1in]{stockmarket}};
+%\node[below=0cm of stockmarket, align=center, text width=1.2in]{{\scriptsize Financial data \par} };
+%
+%\node[left=of stockmarket](proteins){\includegraphics[width=1in]{protein_CG}};
+%\node[below=0cm of proteins, align=center, text width=1.2in]{{\scriptsize Molecular simulations \par} };
+%%\node[below=0cm of DNA, align=center, text width=1.2in](DNA_text){DNA replication \\ {\scriptsize Audit {\em et al}, {\em Nature Protocols}, 2013 \par}};
+%
+%\node[left=of proteins](rxnnetwork){\includegraphics[width=1in]{rxn_networks}};
+%\node[below=0cm of rxnnetwork, align=center, text width=1in]{{\scriptsize Chemical reaction networks \par} };
+%
+%\end{tikzpicture}
+%
+%\newfootnote{{\tiny \texttt{ www.nercenergy.com/research/chemical\_networks.html; www.ks.uiuc.edu/Research/CG; www.wired.co.uk/news/archive/2013-05/8/wikipedia-views-stock-market }}}
+%
+%\vspace{0.5cm}
+%
+%\centering
+%Want to extract the {\em slow variables} \\that govern the system dynamics
+%
+%\end{frame}
+
+
+\begin{frame}{How to Reduce Multiscale Systems?}
 
 \begin{block}{Model reduction}
 
@@ -315,7 +359,7 @@ We will focus on {\bf data reduction}
 %\end{tikzpicture}
 %
 %\vspace{0.5cm}
-%Under some mild conditions, can write a {\em reduced} SDE 
+%Under some mild conditions, can write a {\em reduced} SDE
 %
 %\begin{tikzpicture}
 %
@@ -340,7 +384,7 @@ We will focus on {\bf data reduction}
 \end{tikzpicture}
 %\includegraphics[width=0.5\textwidth]{data_linear_DMAPS}
 
-Construct a {\em metric} which captures relative time scales 
+Construct a {\em metric} which captures relative time scales
 
 \end{frame}
 
@@ -398,7 +442,7 @@ z_i &= \sqrt{\epsilon}x_i , & \: m+1 \le i \le n
 \begin{frame}{Mahalanobis Distance Collapses Fast Directions}
 
 \begin{tikzpicture}
-\node[fill=orange!20](a) {{\small $\begin{aligned} 
+\node[fill=orange!20](a) {{\small $\begin{aligned}
 \| \vec{x}(t_2) - \vec{x}(t_1) \|^2_M  &= \| \vec{z}(t_2) - \vec{z}(t_1) \|^2_2 \\
 &= \sum_{i=1}^n \left( z_i(t_2) - z_i(t_1) \right)^2 \\
 &= \sum_{i=1}^m  \left( x_i(t_2) - x_i(t_1) \right)^2 + \underbrace{\sum_{i=m+1}^n \epsilon \left( x_i(t_2) - x_i(t_1) \right)^2}
@@ -481,7 +525,7 @@ Choose kernel width $\sigma_{kernel}$ where errors are small
 
 \centering
 
- 
+
 For diffusion maps,
 $W_{ij} = \exp \left( -\frac{\| \vec{z}(t_i) - \vec{z}(t_j) \|_2^2}{\sigma_{kernel}^2} \right) $
 
@@ -534,7 +578,7 @@ within ball of radius $\sigma_{kernel}$
 \begin{frame}{Setting the Kernel Scale}
 
 \centering
-{\small  
+{\small
 For diffusion maps,
 $W_{ij} = \exp \left( -\frac{\| \vec{z}(t_i) - \vec{z}(t_j) \|_2^2}{\sigma_{kernel}^2} \right) $
 
@@ -606,7 +650,7 @@ $}};
 %
 %\begin{tikzpicture}
 %
-%\node[fill=orange!20]{{\scriptsize 
+%\node[fill=orange!20]{{\scriptsize
 %$\| \vec{y}(t_2) - \vec{y}(t_1) \|^2_M =
 %\frac{1}{2} \left(\vec{y}(t_2)-\vec{y}(t_1)\right)^T \left(C^\dagger (\vec{y}(t_1)) + C^\dagger (\vec{y}(t_2)) \right) (\vec{y}(t_2)-\vec{y}(t_1)) $ \par}};
 %
@@ -637,7 +681,7 @@ $}};
 
 \centering
 
- 
+
 Estimate local covariance by fitting an ellipse to data
 
 \vspace{0.5cm}
@@ -646,7 +690,7 @@ Estimate local covariance by fitting an ellipse to data
 
 \vspace{0.5cm}
 
-Choose $\delta t$ such that nonlinear effects are minimal 
+Choose $\delta t$ such that nonlinear effects are minimal
 
 \end{frame}
 
@@ -748,7 +792,7 @@ $}};
 \end{tikzpicture}
 }
 
-\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+%\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
 
 
 \end{frame}
@@ -757,12 +801,12 @@ $}};
 \begin{frame}{Linear Two-Dimensional Data}
 
 \begin{block}{}	
-\begin{equation*} 
+\begin{equation*}
 \begin{aligned}
 dx_1(t) &=& adt &+& dW_1(t)\\
 dx_2(t) &=& -\frac{x_2(t)}{\epsilon} dt &+& \frac{1}{\sqrt{\epsilon}} dW_2(t)
 \end{aligned}
-\end{equation*} 
+\end{equation*}
 \end{block}
 
 \centering
@@ -789,7 +833,7 @@ $x_1$ is the slow variable, $x_2$ is the fast variable \newfootnote{$a=3$, $\eps
 
 \end{tikzpicture}
 
-\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
+%\newfootnote{Dsilva {\em et al}, {\em SIADS}, under review.}
 
 \end{frame}
 
@@ -886,7 +930,7 @@ x_2(t)
     NVT ensemble;
     temperature being maintained at 300~K with a Langevin thermostat;
     hydrogen bond lengths are fixed using the SHAKE algorithm \par}
-    
+
     \begin{minipage}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=0.9\textwidth]{FES}\\
@@ -928,7 +972,7 @@ x_2(t)
     \vspace{0.05in}
 
     \centering
-    {\scriptsize 
+    {\scriptsize
     \begin{minipage}{0.2\textwidth}
         \centering
         \includegraphics[width=\textwidth]{ala2_embed1}\\
@@ -946,7 +990,7 @@ x_2(t)
         \includegraphics[width=\textwidth]{ala2_embed3}\\
         (c)
     \end{minipage}}
-    
+
     \vspace{0.05in}
         {\footnotesize We obtain (visually) consistent embeddings for the two data sets }
 
@@ -1001,8 +1045,9 @@ x_2(t)
 
 \begin{itemize}
 \item Multiscale stochastic data arises in a variety of contexts
-\item Adapt data mining techniques to incorporate time scales
-\item Extract slow variables from nonlinear data
+\item Using the Mahalanobis distance in diffusion maps analysis collapses the fast directions and allows us to extract the slow variables from nonlinear multiscale data
+\item We provided an empirical methodology for choosing appropriate kernel and time scales 
+\item We demonstrated our method on both synthetic data and data from a simulation of alanine dipeptide
 \end{itemize}
 
 \vfill
@@ -1014,19 +1059,20 @@ x_2(t)
 \includegraphics[height=1in]{molecule2}
 
 \end{frame}
+
 \section{Detecting Dimensionality}
 
 \begin{frame}{Detecting the Dimensionality of Data}
 
 \centering
-In PCA, we look at the eigenvalues
+In PCA, we use the eigenvalues \\to detect the approximate dimensionality of the data set.
 
 \includegraphics[width=1in]{PCA_data}
 \includegraphics[width=1in]{PCA_evals}
 
-\vfill 
+\vfill
 
-In diffusion maps, we would also like to use the eigenvalues to detect the approximate dimensionality of the data. 
+Also want to use the diffusion maps eigenvalues \\to detect the approximate dimensionality of the data set.
 
 \includegraphics[width=1in]{strip_data_nocolor}
 \includegraphics[width=1in]{strip_evals_nocolor}
@@ -1036,7 +1082,9 @@ In diffusion maps, we would also like to use the eigenvalues to detect the appro
 
 \begin{frame}{Repeated Eigendirections}
 
-However, in diffusion maps, not all eigenvectors parameterize unique eigendirections in the data
+\centering
+
+In diffusion maps, not all eigenvectors parameterize {\em unique~eigendirections} in the data
 
 %\includegraphics[width=1in]{strip_evals_nocolor}
 
@@ -1057,39 +1105,37 @@ However, in diffusion maps, not all eigenvectors parameterize unique eigendirect
 \hspace{0.3in}
 \includegraphics[height=0.7in]{strip_corr_14}
 
-{\em \scriptsize Diffusion maps eigenvectors 2-4 plotted as a function of the first eigenvector. The second and third eigenvectors are nonlinear functions of the first. \par}
+{\em \scriptsize Diffusion maps eigenvectors 2-4 plotted as a function of the first eigenvector. \\ The second and third eigenvectors are nonlinear functions of the first. \par}
 
 \vspace{0.1in}
 
-We need an automated way to detect these {\em repeated eigendirections}.
+We need an automated way \\ to detect these {\em repeated eigendirections}.
 
 \end{frame}
 
 \begin{frame}{Algorithm: Local Linear Regression}
 
-For each eigenvector $\phi_k$, fit a function $\phi_k = f(\phi_1, \dots, \phi_{k-1})$. 
+For each eigenvector $\phi_k$, fit a function $\phi_k = f(\phi_1, \dots, \phi_{k-1})$.
 %
-We use local linear regression to fit the function $f$. 
+ Use local linear regression to fit the function $f$.
 
 \vspace{0.1in}
 
 \begin{minipage}{0.45\textwidth}
+\centering
 {\small If fit is accurate, then $\phi_k$ is a {\em repeated eigendirection} \par}
 
-\centering
 \includegraphics[width=0.7in]{strip_corr_12_fitline}
 \includegraphics[width=0.7in]{strip_corr_13_fitline}
-
 \end{minipage}
 %
-\hfill 
+\hfill
 %
 \begin{minipage}{0.45\textwidth}
+\centering
 {\small If fit is inaccurate, then $\phi_k$ is a {\em unique eigendirection} \par}
 
-\centering
 \includegraphics[width=0.7in]{strip_corr_14_fitline}
-
 \end{minipage}
 
 \vspace{0.1in}
@@ -1097,7 +1143,7 @@ We use local linear regression to fit the function $f$.
 \includegraphics[width=1.5in]{strip_evals_color}
 \hfill
 \begin{minipage}[b]{2.5in}
-{\scriptsize 
+{\scriptsize
 Diffusion maps eigenvalues, colored by the leave-one-out cross-validation error $r_k$ from the local linear fit. A large value of $r_k$ indicates a unique eigendirection, and a small value of $r_k$ indicates a repeated eigendirection. \par}
 \vspace{0.2in}
 \end{minipage}
@@ -1136,8 +1182,9 @@ Diffusion maps eigenvalues, colored by the leave-one-out cross-validation error 
 
 \end{tikzpicture}
 
+\centering
 {\footnotesize
-In both cases, the identified eigenvectors are one-to-one with the arglength along the spiral and the height of the Swiss roll. 
+In both cases, the identified eigenvectors are one-to-one with the arclength along the spiral and the height of the Swiss roll.
 \par}
 
 \newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
@@ -1154,7 +1201,7 @@ Cellular chemotaxis: biological cells exhibit coherent macroscopic dynamics regu
 
 \begin{minipage}{0.55\textwidth}
 
-{\footnotesize 
+{\footnotesize
 Mathematical model:
 \par}
 
@@ -1164,7 +1211,7 @@ Mathematical model:
 \item Each cell $i$ has a position $x_i(t)$ and velocity $v_i(t)$
 \item $v_i(t) = \pm s$, where $s$ is a fixed speed
 \item Cells are initialized such that \\
-{\centering 
+{\centering
 $x_i(0) = 0$ \\
 $\mathbb{P} \{ v_i(0) = +s \} = p$\\ }
 where $0 < p < 1$ is the probability of a cell initially moving to the right
@@ -1202,13 +1249,18 @@ Relative importance changes
 
 \begin{frame}{Diffusion maps embeddings of data}
 
-{\scriptsize 
-Distance used is the Earth Mover's Distance between histograms of the particle positions \footnote{Rubner, Tomasi, and Guibas, {\em International Journal of Computer Vision}, 2000.}
-\par }
+{\scriptsize
+\begin{itemize}
+
+\item Compute diffusion maps embeddings of data collected over a range of initial conditions $p$ and times $t$ for a fixed value of the switching rate $\lambda$ \par
+\item Metric: Earth Mover's Distance between histograms of the particle positions \footnote{Rubner, Tomasi, and Guibas, {\em International Journal of Computer Vision}, 2000.} \par
+
+\end{itemize}
+ }
 
 \centering
 
-\def\figwidth{1.1in}
+\def\figwidth{0.9in}
 
 \begin{tikzpicture}
 
@@ -1224,11 +1276,12 @@ Distance used is the Earth Mover's Distance between histograms of the particle p
 \node [above=0in of a] {\scriptsize Colored by $p$};
 \node [above=0in of b] {\scriptsize Colored by $t$};
 
-%\node [right=0.1in of b,text width=2in] {\footnotesize Embeddings recover $p$ and $t$ \newline Relative importance changes \par};
+
+\node [right=0.1in of b,text width=1.7in] {\footnotesize Embeddings recover $p$ and $t$ \newline Relative importance changes \par};
 
 \end{tikzpicture}
 
-{\footnotesize Embeddings recover $p$ and $t$ \\ Relative importance changes \par}
+%{\footnotesize Embeddings recover $p$ and $t$ \\ Relative importance changes \par}
 
 \newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
 
@@ -1236,7 +1289,7 @@ Distance used is the Earth Mover's Distance between histograms of the particle p
 
 \begin{frame}{Find Unique Eigendirections}
 
-As we increase $\lambda$, the eigenvectors which correspond to $p$ and $t$ move farther down in the spectrum
+Increase $\lambda$ $\rightarrow$ eigenvectors which correspond to $p$ and $t$ move~further down in the spectrum
 
 \vfill
 
@@ -1251,8 +1304,8 @@ As we increase $\lambda$, the eigenvectors which correspond to $p$ and $t$ move 
 \node[right=0in of d] (e) {\includegraphics[height=0.9in]{chemotaxis2_embed_good}};
 \node[right=0in of e] (f) {\includegraphics[height=0.9in]{chemotaxis3_embed_good}};
 
-\node [left=-0.1in of a, text width=0.75in] {\scriptsize Diffusion maps eigenvalue spectra \par};
-\node [left=-0.1in of d, text width=0.75in] {\scriptsize Diffusion maps embeddings \par};
+\node [left=-0.1in of a, text width=1in] {\scriptsize Diffusion maps eigenvalue spectra \par};
+\node [left=-0.1in of d, text width=1in] {\scriptsize Diffusion maps embeddings \par};
 
 \node [above=0in of a] {\scriptsize $\lambda=100$};
 \node [above=0in of b] {\scriptsize $\lambda=1600$};
@@ -1268,13 +1321,13 @@ As we increase $\lambda$, the eigenvectors which correspond to $p$ and $t$ move 
 \begin{frame}{Detecting Changes in Dimensionality}
 
 \begin{itemize}
-\item Look at the ratio of the two eigenvalues corresponding to unique eigendirections
-\item If this ratio is small, data are effectively one-dimensional
-\item If this ratio is large, data are effectively two-dimensional
+\item Calculate ratio of the two eigenvalues corresponding to unique eigendirections
+\item If ratio is small, data are effectively one-dimensional
+\item If ratio is large, data are effectively two-dimensional
 \end{itemize}
 
 \centering
-\includegraphics[width=2.5in]{tmax_lambda_transition}
+\includegraphics[width=2.2in]{tmax_lambda_transition}
 
 \newfootnote{Dsilva {\em et al}, {\em ACHA}, under review.}
 
@@ -1283,8 +1336,10 @@ As we increase $\lambda$, the eigenvectors which correspond to $p$ and $t$ move 
 \begin{frame}{Conclusions}
 
 \begin{itemize}
-\item Automated method to find the {\em unique eigendirections} in diffusion maps
-\item Allows for the detection of changes in dimensionality
+\item Repeated eigendirections often obscure diffusion~maps~analysis
+\item We developed an automated method, based on local linear regression, for identifying the {\em unique eigendirections} in diffusion maps
+\item These unique eigendirections provide informative parameterizations of data and allow us to estimate the dimensionality of the underlying manifold
+\item We demonstrated the approach on both synthetic data and simulation data from a model of cellular chemotaxis
 \end{itemize}
 
 \vfill
@@ -1316,7 +1371,7 @@ We will look at cross-sectional imaging data. %The tasks are
 \includegraphics[width=2in]{fig1}
 
 {\scriptsize A caricature of ordering cross-sectional data. \\
-(Left) Fish, each in a different stage of development.  (Right) Fish, now registered and temporally ordered. \par}
+(Left) Fish, each in a different stage of development.  \\(Right) Fish, now registered and temporally ordered. \par}
 \end{center}
 
 \end{frame}
@@ -1353,12 +1408,12 @@ We will look at optical sections \\ perpendicular to the long axis of the embryo
 
 \vspace{0.1in}
 
-{\footnotesize 
+{\footnotesize
 We obtain images at a fixed depth (90~$\mu m$) \\from the tip of the embryo.
 
 Each embryo is in a different rotational orientation.
  \par}
- 
+
 \end{center}
 
 \newfootnote{Chung {\em et al}, {\em Nature Methods}, 2011.}
@@ -1373,7 +1428,7 @@ Each embryo is in a different rotational orientation.
 
 \begin{itemize}
 {\small
-\item Each image is from a different embryo 
+\item Each image is from a different embryo
 \item Each embryo is stained for three different proteins
 \item Each embryo is at a different (and unknown) developmental time
 \item Each embryo is also at a different (and unknown) orientation
@@ -1386,7 +1441,7 @@ Each embryo is in a different rotational orientation.
 \begin{frame}{Methods for Registration and Ordering}
 
 \centering
-Simultaneously register and order using vector diffusion maps 
+Simultaneously register and order using vector diffusion maps
 \newfootnote{Singer and Wu, {\em Commun Pure Appl Math}, 2012.}
 
 \includegraphics[width=0.6\textwidth]{synchronization_schematic}
@@ -1395,7 +1450,7 @@ Simultaneously register and order using vector diffusion maps
 
 \begin{frame}{Registered and Ordered Images}
 
-\centering 
+\centering
 
 Compared vector diffusion maps ordering \\
 with manual ordering by an expert
@@ -1407,7 +1462,7 @@ with manual ordering by an expert
 Can compute an {\em average developmental trajectory}
 \includegraphics[width=\textwidth]{drosophila_data_averaged}
 
-\newfootnote{Dsilva {\em et al}, {\em Current Biology}, 2015.}
+\newfootnote{Dsilva {\em et al}, {\em Development}, 2015.}
 
 \end{frame}
 
@@ -1428,22 +1483,25 @@ Zebrafish live imaging
 {\em Drosophila} wing discs (three-dimensional image stacks)
 \includegraphics[width=0.45\textwidth]{wing_disc_ordered}
 
-\newfootnote{Dsilva {\em et al}, {\em Current Biology}, 2015.}
+\newfootnote{Dsilva {\em et al}, {\em Development}, 2015.}
 
 \end{frame}
 
 \begin{frame}{Conclusions}
 
 \begin{itemize}
-\item Can automatically register and order complex imaging data sets
-\item Can extract representative developmental trajectories to uncover stereotypic dynamics
+\item Cross-sectional sampling is a common experimental approach in developmental biology
+\item In such experiments, images must be registered and ordered to reconstruct the developmental dynamics
+\item We used vector diffusion maps to automatically register and order such complex imaging data sets
+\item We used the algorithm to register and order four different imaging data sets and extracted stereotypic developmental trajectories
 \end{itemize}
 
 \vfill
 
-\includegraphics[height=1.25in]{synchronization_schematic}
-\hfill
-\includegraphics[height=1.25in]{drosophila_data_ordered}
+\centering
+\includegraphics[height=1in]{synchronization_schematic}
+\hspace{0.5in}
+\includegraphics[height=1in]{drosophila_data_ordered}
 
 \end{frame}
 
@@ -1451,53 +1509,52 @@ Zebrafish live imaging
 
 \begin{frame}{Thank You!}
 
-\begin{minipage}{0.45\textwidth}
+\def\picheight{0.75in}
 
-\begin{itemize}
-\item Advisor: Ioannis Kevrekidis
-\item Committee members
-\begin{itemize}
-	\item Pablo Debenedetti
-	\item Athanassios Panagiotopoulos
-	\item Stanislav Shvartsman
-\end{itemize}
-\item Funding
-\begin{itemize}
-	\item DOE Computational Science Graduate Fellowship
-	\item NSF Graduate Research Fellowship
-\end{itemize}
-\item Kevrekidis lab
-\end{itemize} 
-\end{minipage}
-%
-\begin{minipage}{2in}
-
-\centering
-
-\includegraphics[width=2in]{classmates}
-
-\includegraphics[height=0.75in, angle=-90]{family}
+\includegraphics[height=\picheight]{YGK}
+\hfill
+\includegraphics[height=\picheight]{PGD}
+\includegraphics[height=\picheight]{AZP}
+\includegraphics[height=\picheight]{SYS}
 %
 \hfill
+\includegraphics[height=\picheight]{CSGF_vert_1200x853}
+\includegraphics[height=\picheight]{nsf_logo}
+
+\vfill
+\def\picheight{0.6in}
+
+\includegraphics[height=\picheight]{ping}
+\hfill
+\includegraphics[height=\picheight]{lilia}
+\hfill
+\includegraphics[height=\picheight]{karthik}
+\hfill
+\includegraphics[height=\picheight]{alexander_tom_dmitry}
+\hfill
+\includegraphics[height=\picheight]{dave}
+\hfill
+\includegraphics[height=\picheight]{mow}
+\hfill
+\includegraphics[height=\picheight]{minseok}
+
+\vfill
+\def\picheight{1.3in}
+
+\includegraphics[height=\picheight]{classmates}
+\hfill
+\includegraphics[height=\picheight]{family}
 %
-\begin{minipage}[t]{1.25in}
-\vspace{0in}
-\includegraphics[width=0.5\textwidth]{julia}
-\includegraphics[width=0.5\textwidth]{nicholas}\\
-\includegraphics[width=\textwidth]{matthew}
+\hfill
+\begin{minipage}[b]{0.45in}
+
+\includegraphics[height=0.65in, trim=5in 0in 1.5in 0in, clip]{julia}
+
+\includegraphics[height=0.65in, trim=0.5in 0in 6in 0in, clip]{nicholas}
+
 \end{minipage}
-\end{minipage}
-
-
-%\begin{itemize}
-%\item Yannis
-%\item Committee
-%\item Labmates
-%\item Classmates
-%\item Parents 
-%\item Matt + dogs
-%\end{itemize}
-
+\hfill
+\includegraphics[height=\picheight]{matthew2}
 
 \end{frame}
 
